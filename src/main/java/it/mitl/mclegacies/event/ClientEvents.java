@@ -1,15 +1,26 @@
 package it.mitl.mclegacies.event;
 
 import it.mitl.mclegacies.MCLegacies;
+import it.mitl.mclegacies.client.CompulsionKeybind;
 import it.mitl.mclegacies.client.ExperienceBarColourChanger;
+import it.mitl.mclegacies.network.ModMessages;
+import it.mitl.mclegacies.network.packet.VillagerDiscountC2SPacket;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod.EventBusSubscriber(modid = MCLegacies.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = MCLegacies.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClientEvents {
 
     public static void register() {
@@ -21,5 +32,26 @@ public class ClientEvents {
 
     public static void onClientSetup(final FMLClientSetupEvent event) {
         // Client setup code can go here
+    }
+
+    @SubscribeEvent
+    public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
+        CompulsionKeybind.register(event);
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (Minecraft.getInstance().player == null || Minecraft.getInstance().level == null) return;
+
+        if (CompulsionKeybind.COMPEL_KEY.consumeClick()) {
+            HitResult hit = Minecraft.getInstance().hitResult;
+            if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
+                Entity target = ((EntityHitResult) hit).getEntity();
+                if (target instanceof Villager villager) {
+                    // Send packet to server to request discount
+                    ModMessages.sendToServer(new VillagerDiscountC2SPacket(villager.getUUID()));
+                }
+            }
+        }
     }
 }

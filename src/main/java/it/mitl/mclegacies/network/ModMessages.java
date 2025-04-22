@@ -74,4 +74,14 @@ public class ModMessages {
             workQueue.removeAll(actions);
         }
     }
+
+    /**
+     * Sends a packet/message to the server.
+     *
+     * @param message The message to send.
+     * @param <T> The message type.
+     */
+    public static <T> void sendToServer(T message) {
+        PACKET_HANDLER.sendToServer(message);
+    }
 }
