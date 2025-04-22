@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
 
@@ -24,6 +25,12 @@ public class ServerHandler {
         if (entity instanceof Villager villager) {
             if (!"vampire".equals(VariableManager.getSpecies(player))) {
                 return; // Player isn't a vampire
+            }
+
+            FoodData foodData = player.getFoodData();
+            if (foodData.getFoodLevel() < 4) {
+                player.displayClientMessage(Component.literal("You are too hungry to compel this villager!"), true);
+                return;
             }
 
             boolean discountApplied = false;
@@ -45,6 +52,7 @@ public class ServerHandler {
 
             // Send a message to the player if a discount was applied
             if (discountApplied) {
+                foodData.setFoodLevel(foodData.getFoodLevel() - 4); // Reduce hunger by 4 points (2 blood)
                 player.displayClientMessage(Component.literal("You have compelled the villager!"), true);
             } else {
                 player.displayClientMessage(Component.literal("You have already compelled this villager!"), true);
