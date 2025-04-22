@@ -29,7 +29,7 @@ public class ServerHandler {
 
             FoodData foodData = player.getFoodData();
             if (foodData.getFoodLevel() < 4) {
-                player.displayClientMessage(Component.literal("You are too hungry to compel this villager!"), true);
+                player.displayClientMessage(Component.literal("§4YYou are too hungry to compel this villager!"), true);
                 return;
             }
 
@@ -53,9 +53,9 @@ public class ServerHandler {
             // Send a message to the player if a discount was applied
             if (discountApplied) {
                 foodData.setFoodLevel(foodData.getFoodLevel() - 4); // Reduce hunger by 4 points (2 blood)
-                player.displayClientMessage(Component.literal("You have compelled the villager!"), true);
+                player.displayClientMessage(Component.literal("§4YYou have compelled the villager!"), true);
             } else {
-                player.displayClientMessage(Component.literal("You have already compelled this villager!"), true);
+                player.displayClientMessage(Component.literal("§4YYou have already compelled this villager!"), true);
             }
         }
     }
