@@ -1,16 +1,21 @@
 package it.mitl.mclegacies.event;
 
 import it.mitl.mclegacies.MCLegacies;
-import it.mitl.mclegacies.client.CompulsionKeybind;
+import it.mitl.mclegacies.client.keybind.CompulsionKeybind;
 import it.mitl.mclegacies.client.ExperienceBarColourChanger;
 import it.mitl.mclegacies.network.ModMessages;
 import it.mitl.mclegacies.network.packet.VillagerDiscountC2SPacket;
+import it.mitl.mclegacies.subroutine.VariableManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -54,4 +59,5 @@ public class ClientEvents {
             }
         }
     }
+
 }

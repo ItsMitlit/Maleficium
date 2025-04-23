@@ -1,4 +1,4 @@
-package it.mitl.mclegacies.client;
+package it.mitl.mclegacies.client.keybind;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.api.distmarker.Dist;
