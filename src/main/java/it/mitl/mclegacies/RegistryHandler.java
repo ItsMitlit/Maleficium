@@ -11,12 +11,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.client.ConfigScreenHandler;
 
 public class RegistryHandler {
+
+    public static boolean isCuriosLoaded = false;
 
     public static void register() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -37,5 +39,23 @@ public class RegistryHandler {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, MCLegaciesCommonConfigs.SPEC, "mclegacies-common.toml");
 
+        isCuriosLoaded = ModList.get().isLoaded("curios");
+
+
+        if (ModList.get().isLoaded("curios")) {
+            try {
+                Class<?> clazz = Class.forName("it.mitl.mclegacies.compat.curios.CuriosCompat");
+                Object method = clazz.getMethod("registerIMCEvent");
+                ((Runnable) () -> {
+                    try {
+                        ((java.lang.reflect.Method) method).invoke(null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

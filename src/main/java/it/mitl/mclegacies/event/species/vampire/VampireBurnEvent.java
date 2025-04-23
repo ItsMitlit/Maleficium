@@ -1,5 +1,6 @@
 package it.mitl.mclegacies.event.species.vampire;
 
+import it.mitl.mclegacies.RegistryHandler;
 import it.mitl.mclegacies.item.ModItems;
 import it.mitl.mclegacies.subroutine.VariableManager;
 import net.minecraft.world.entity.player.Player;
@@ -29,6 +30,13 @@ public class VampireBurnEvent {
         ItemStack offHandItem = player.getOffhandItem();
         if (mainHandItem.is(ModItems.DAYLIGHT_RING.get()) || offHandItem.is(ModItems.DAYLIGHT_RING.get())) return;
 
+        // Check if Curios API is loaded and if the player has a Daylight Ring equipped in a curios ring slot
+        if (RegistryHandler.isCuriosLoaded &&
+                top.theillusivec4.curios.api.CuriosApi.getCuriosHelper()
+                        .findEquippedCurio(ModItems.DAYLIGHT_RING.get(), player)
+                        .isPresent()) {
+            return;
+        }
 
         Level level = player.level();
 
