@@ -1,5 +1,6 @@
 package it.mitl.mclegacies.event.species.vampire;
 
+import it.mitl.mclegacies.config.MCLegaciesCommonConfigs;
 import it.mitl.mclegacies.subroutine.VariableManager;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -31,7 +32,7 @@ public class VampireAttributeEvent {
         if (isVampire) {
             if (player.getAttribute(Attributes.ATTACK_DAMAGE).getModifier(STRENGTH_MODIFIER_UUID) == null) {
                 player.getAttribute(Attributes.ATTACK_DAMAGE).addPermanentModifier(
-                        new AttributeModifier(STRENGTH_MODIFIER_UUID, "Vampire strength boost", 5.0, AttributeModifier.Operation.ADDITION)
+                        new AttributeModifier(STRENGTH_MODIFIER_UUID, "Vampire strength boost", MCLegaciesCommonConfigs.VAMPIRE_STRENGTH_MULTIPLIER.get(), AttributeModifier.Operation.MULTIPLY_TOTAL)
                 );
             }
         } else {
@@ -42,7 +43,7 @@ public class VampireAttributeEvent {
         if (isVampire) {
             if (player.getAttribute(Attributes.MAX_HEALTH).getModifier(HEALTH_MODIFIER_UUID) == null) {
                 player.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(
-                        new AttributeModifier(HEALTH_MODIFIER_UUID, "Vampire health boost", 10.0, AttributeModifier.Operation.ADDITION)
+                        new AttributeModifier(HEALTH_MODIFIER_UUID, "Vampire health boost", MCLegaciesCommonConfigs.VAMPIRE_HEALTH_INCREASE.get(), AttributeModifier.Operation.ADDITION)
                 );
                 player.setHealth(player.getMaxHealth()); // Ensure the health updates instantly
             }

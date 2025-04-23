@@ -1,5 +1,6 @@
 package it.mitl.mclegacies;
 
+import it.mitl.mclegacies.config.MCLegaciesCommonConfigs;
 import it.mitl.mclegacies.event.ClientEvents;
 import it.mitl.mclegacies.event.ModEvents;
 import it.mitl.mclegacies.item.ModCreativeModeTabs;
@@ -10,7 +11,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.client.ConfigScreenHandler;
 
 public class RegistryHandler {
 
@@ -30,6 +34,8 @@ public class RegistryHandler {
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(ModEvents.class);
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, MCLegaciesCommonConfigs.SPEC, "mclegacies-common.toml");
 
     }
 }
