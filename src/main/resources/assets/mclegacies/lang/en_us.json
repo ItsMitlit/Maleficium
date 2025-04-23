@@ -1,4 +1,7 @@
 {
   "key.mclegacies.compel": "Compel",
-  "key.categories.mclegacies": "MCLegacies"
+  "key.categories.mclegacies": "MCLegacies",
+
+  "creativetab.mclegacies_tab": "MCLegacies",
+  "item.mclegacies.daylight_ring": "Daylight Ring"
 }

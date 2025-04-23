@@ -1,7 +1,9 @@
 package it.mitl.mclegacies.event.species.vampire;
 
+import it.mitl.mclegacies.item.ModItems;
 import it.mitl.mclegacies.subroutine.VariableManager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,6 +23,12 @@ public class VampireBurnEvent {
 
         // If the player is in creative or spectator mode, do not apply the effect
         if (player.isCreative() || player.isSpectator()) return;
+
+        // Check if the player has a Daylight Ring in either hand
+        ItemStack mainHandItem = player.getMainHandItem();
+        ItemStack offHandItem = player.getOffhandItem();
+        if (mainHandItem.is(ModItems.DAYLIGHT_RING.get()) || offHandItem.is(ModItems.DAYLIGHT_RING.get())) return;
+
 
         Level level = player.level();
 

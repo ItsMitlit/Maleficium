@@ -2,6 +2,8 @@ package it.mitl.mclegacies;
 
 import it.mitl.mclegacies.event.ClientEvents;
 import it.mitl.mclegacies.event.ModEvents;
+import it.mitl.mclegacies.item.ModCreativeModeTabs;
+import it.mitl.mclegacies.item.ModItems;
 import it.mitl.mclegacies.network.ModMessages;
 import it.mitl.mclegacies.network.packet.VillagerDiscountC2SPacket;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,6 +27,8 @@ public class RegistryHandler {
 
         MinecraftForge.EVENT_BUS.register(ModMessages.class);
         ClientEvents.register();
+        ModCreativeModeTabs.register(modEventBus);
+        ModItems.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(ModEvents.class);
 
     }
