@@ -91,7 +91,9 @@ public class ServerHandler {
             if (player.getFoodData().getFoodLevel() < 20) {
                 player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() + 1);
             }
-            player.displayClientMessage(Component.literal("§4You have sucked blood from this mob! " + currentBlood + " -> " + newBlood), true);
+            int newBloodInt = (int) newBlood;
+            int maxBloodInt = (int) blood.getMaxBlood();
+            player.displayClientMessage(Component.literal("§4You have sucked blood from this mob! (" + newBloodInt + "/" + maxBloodInt + ")"), true);
         });
     }
 }
