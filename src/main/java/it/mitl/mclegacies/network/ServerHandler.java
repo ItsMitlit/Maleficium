@@ -5,6 +5,8 @@ import it.mitl.mclegacies.subroutine.VariableManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.food.FoodData;
@@ -81,6 +83,7 @@ public class ServerHandler {
             } else {
                 if (currentBlood == 1) {
                     entity.kill();
+                    player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 2, true, false)); // 100 ticks = 5 seconds
                     player.displayClientMessage(Component.literal("§4You drained the mob to death!"), true);
                     return;
                 }
