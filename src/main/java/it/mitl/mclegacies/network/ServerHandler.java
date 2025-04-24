@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -71,9 +72,13 @@ public class ServerHandler {
 
         BloodCapability.getBloodCapability(entity).ifPresent(blood -> {
             float currentBlood = blood.getBlood();
+            if (entity instanceof LivingEntity livingEntity) {
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 255, true, false));
+            }
             if (entity instanceof Villager) {
                 if (currentBlood <= 2) {
                     entity.kill();
+                    player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 2, true, false)); // 100 ticks = 5 seconds
                     player.displayClientMessage(Component.literal("§4You drained the villager to death!"), true);
                     return;
                 }
