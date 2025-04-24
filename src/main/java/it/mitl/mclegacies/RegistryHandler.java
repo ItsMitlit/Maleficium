@@ -1,11 +1,13 @@
 package it.mitl.mclegacies;
 
+import it.mitl.mclegacies.capability.ModCapabilities;
 import it.mitl.mclegacies.config.MCLegaciesCommonConfigs;
 import it.mitl.mclegacies.event.ClientEvents;
 import it.mitl.mclegacies.event.ModEvents;
 import it.mitl.mclegacies.item.ModCreativeModeTabs;
 import it.mitl.mclegacies.item.ModItems;
 import it.mitl.mclegacies.network.ModMessages;
+import it.mitl.mclegacies.network.packet.BloodSuckC2SPacket;
 import it.mitl.mclegacies.network.packet.VillagerDiscountC2SPacket;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -30,8 +32,15 @@ public class RegistryHandler {
                 VillagerDiscountC2SPacket::new,
                 VillagerDiscountC2SPacket::handle
         );
+        ModMessages.addNetworkMessage(
+                BloodSuckC2SPacket.class,
+                BloodSuckC2SPacket::toBytes,
+                BloodSuckC2SPacket::new,
+                BloodSuckC2SPacket::handle
+        );
 
         MinecraftForge.EVENT_BUS.register(ModMessages.class);
+        MinecraftForge.EVENT_BUS.addListener(ModCapabilities::registerCapabilities);
         ClientEvents.register();
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);

@@ -1,5 +1,6 @@
 package it.mitl.mclegacies.network;
 
+import it.mitl.mclegacies.capability.blood.BloodCapability;
 import it.mitl.mclegacies.subroutine.VariableManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -58,5 +59,39 @@ public class ServerHandler {
                 player.displayClientMessage(Component.literal("§4You have already compelled this villager!"), true);
             }
         }
+    }
+
+    public static void handleBloodSuckRequest(ServerPlayer player, UUID entityUUID) {
+        Level world = player.level();
+        Entity entity = ((ServerLevel) world).getEntity(entityUUID);
+
+        if (!"vampire".equals(VariableManager.getSpecies(player))) return;
+
+        BloodCapability.getBloodCapability(entity).ifPresent(blood -> {
+            float currentBlood = blood.getBlood();
+            if (entity instanceof Villager) {
+                if (currentBlood <= 2) {
+                    entity.kill();
+                    player.displayClientMessage(Component.literal("§4You drained the villager to death!"), true);
+                    return;
+                }
+                blood.setBlood(currentBlood - 2); // Decrease blood by 2 points
+                player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() + 1); // Add 1 food point because there is another addition at the bottom :D
+                player.getFoodData().setSaturation(player.getFoodData().getSaturationLevel() + 1); // Add 1 saturation point
+            } else {
+                if (currentBlood == 1) {
+                    entity.kill();
+                    player.displayClientMessage(Component.literal("§4You drained the mob to death!"), true);
+                    return;
+                }
+                blood.setBlood(currentBlood - 1); // Decrease blood by 1 point
+            }
+
+            float newBlood = blood.getBlood();
+            if (player.getFoodData().getFoodLevel() < 20) {
+                player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() + 1);
+            }
+            player.displayClientMessage(Component.literal("§4You have sucked blood from this mob! " + currentBlood + " -> " + newBlood), true);
+        });
     }
 }

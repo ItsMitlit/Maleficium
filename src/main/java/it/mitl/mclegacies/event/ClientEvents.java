@@ -1,9 +1,11 @@
 package it.mitl.mclegacies.event;
 
 import it.mitl.mclegacies.MCLegacies;
+import it.mitl.mclegacies.client.keybind.BloodSuckKeybind;
 import it.mitl.mclegacies.client.keybind.CompulsionKeybind;
 import it.mitl.mclegacies.client.ExperienceBarColourChanger;
 import it.mitl.mclegacies.network.ModMessages;
+import it.mitl.mclegacies.network.packet.BloodSuckC2SPacket;
 import it.mitl.mclegacies.network.packet.VillagerDiscountC2SPacket;
 import it.mitl.mclegacies.subroutine.VariableManager;
 import net.minecraft.client.Minecraft;
@@ -44,6 +46,7 @@ public class ClientEvents {
         CompulsionKeybind.register(event);
     }
 
+    private static long lastBloodSuckTime = 0;
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (Minecraft.getInstance().player == null || Minecraft.getInstance().level == null) return;
@@ -58,6 +61,17 @@ public class ClientEvents {
                 }
             }
         }
+        if (BloodSuckKeybind.SUCK_BLOOD_KEY.isDown()) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastBloodSuckTime >= 500) { // 0.5 second cooldown
+                HitResult hit = Minecraft.getInstance().hitResult;
+                if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
+                    Entity target = ((EntityHitResult) hit).getEntity();
+                    // Send packet to server to request blood suck.
+                    ModMessages.sendToServer(new BloodSuckC2SPacket(target.getUUID()));
+                }
+                lastBloodSuckTime = currentTime;
+            }
+        }
     }
-
 }
