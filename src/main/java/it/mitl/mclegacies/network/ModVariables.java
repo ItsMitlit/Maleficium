@@ -104,6 +104,7 @@ public class ModVariables {
             PlayerVariables clone = ((PlayerVariables) event.getEntity().getCapability(PLAYER_VARIABLES_CAPABILITY, null).orElse(new PlayerVariables()));
             clone.species = original.species;
             clone.faction = original.faction;
+            clone.buffToggle = original.buffToggle;
             if (!event.isWasDeath()) {
             }
         }
@@ -157,6 +158,7 @@ public class ModVariables {
     public static class PlayerVariables {
         public String species = "human";
         public String faction = "none";
+        public boolean buffToggle = false;
 
         /**
          * Syncs the player variables to the client.
@@ -177,6 +179,7 @@ public class ModVariables {
             CompoundTag nbt = new CompoundTag();
             nbt.putString("species", species);
             nbt.putString("faction", faction);
+            nbt.putBoolean("buffToggle", buffToggle);
             return nbt;
         }
 
@@ -189,6 +192,7 @@ public class ModVariables {
             CompoundTag nbt = (CompoundTag) tag;
             species = nbt.getString("species");
             faction = nbt.getString("faction");
+            buffToggle = nbt.getBoolean("buffToggle");
         }
     }
 
@@ -240,6 +244,7 @@ public class ModVariables {
                     PlayerVariables variables = ((PlayerVariables) Minecraft.getInstance().player.getCapability(PLAYER_VARIABLES_CAPABILITY, null).orElse(new PlayerVariables()));
                     variables.species = message.data.species;
                     variables.faction = message.data.faction;
+                    variables.buffToggle = message.data.buffToggle;
                 }
             });
             context.setPacketHandled(true);

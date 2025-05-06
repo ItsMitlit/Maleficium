@@ -36,4 +36,19 @@ public class VariableManager {
 
         return (entity.getCapability(ModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ModVariables.PlayerVariables())).faction;
     }
+
+    public static void setBuffed(boolean value, Entity entity) {
+        if (!(entity instanceof Player player)) return;
+
+        entity.getCapability(ModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
+            capability.buffToggle = value;
+            capability.syncPlayerVariables(entity);
+        });
+    }
+
+    public static boolean isBuffed(Entity entity) {
+        if(!(entity instanceof net.minecraft.world.entity.player.Player)) return false;
+
+        return (entity.getCapability(ModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ModVariables.PlayerVariables())).buffToggle;
+    }
 }

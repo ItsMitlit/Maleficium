@@ -8,6 +8,7 @@ import it.mitl.mclegacies.item.ModCreativeModeTabs;
 import it.mitl.mclegacies.item.ModItems;
 import it.mitl.mclegacies.network.ModMessages;
 import it.mitl.mclegacies.network.packet.BloodSuckC2SPacket;
+import it.mitl.mclegacies.network.packet.ToggleBuffedC2SPacket;
 import it.mitl.mclegacies.network.packet.VillagerDiscountC2SPacket;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -37,6 +38,12 @@ public class RegistryHandler {
                 BloodSuckC2SPacket::toBytes,
                 BloodSuckC2SPacket::new,
                 BloodSuckC2SPacket::handle
+        );
+        ModMessages.addNetworkMessage(
+                ToggleBuffedC2SPacket.class,
+                ToggleBuffedC2SPacket::toBytes,
+                ToggleBuffedC2SPacket::new,
+                ToggleBuffedC2SPacket::handle
         );
 
         MinecraftForge.EVENT_BUS.register(ModMessages.class);

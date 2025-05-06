@@ -104,4 +104,19 @@ public class ServerHandler {
             player.displayClientMessage(Component.literal("§4You have sucked blood from this mob! (" + newBloodInt + "/" + maxBloodInt + ")"), true);
         });
     }
+
+    public static void handleBuffToggleRequest(ServerPlayer player) {
+
+        // Ignore if the player is a human
+        if ("human".equals(VariableManager.getSpecies(player))) return;
+
+        // Toggle the buffed state
+        VariableManager.setBuffed(!VariableManager.isBuffed(player), player);
+
+        if (VariableManager.isBuffed(player)) { // If the buffed state is now enabled
+            player.displayClientMessage(Component.literal("§aYour movement buffs are now enabled."), true);
+        } else { // If the buffed state is now disabled
+            player.displayClientMessage(Component.literal("§cYour movement buffs are now disabled."), true);
+        }
+    }
 }

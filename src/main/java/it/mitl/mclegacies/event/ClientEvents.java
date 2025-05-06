@@ -4,8 +4,10 @@ import it.mitl.mclegacies.MCLegacies;
 import it.mitl.mclegacies.client.keybind.BloodSuckKeybind;
 import it.mitl.mclegacies.client.keybind.CompulsionKeybind;
 import it.mitl.mclegacies.client.ExperienceBarColourChanger;
+import it.mitl.mclegacies.client.keybind.ToggleBuffKeybind;
 import it.mitl.mclegacies.network.ModMessages;
 import it.mitl.mclegacies.network.packet.BloodSuckC2SPacket;
+import it.mitl.mclegacies.network.packet.ToggleBuffedC2SPacket;
 import it.mitl.mclegacies.network.packet.VillagerDiscountC2SPacket;
 import it.mitl.mclegacies.subroutine.VariableManager;
 import net.minecraft.client.Minecraft;
@@ -72,6 +74,9 @@ public class ClientEvents {
                 }
                 lastBloodSuckTime = currentTime;
             }
+        }
+        if (ToggleBuffKeybind.TOGGLE_BUFF_KEY.consumeClick()) {
+            ModMessages.sendToServer(new ToggleBuffedC2SPacket());
         }
     }
 }
