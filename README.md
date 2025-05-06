@@ -1,3 +1,5 @@
+NOTICE: PLEASE USE THE v1.0.0 BRANCH. MASTER IS NOT SYNCED YET.
+---
 # MCLegacies: Vampires & More!
 Welcome to MCLegacies! This mod gives players the ability to become vampires with various different abilities, buffs, and debuffs. Please be patient with me and aware that this mod is in **early beta** and I'm uploading this to get [feedback](https://github.com/ItsMitlit/MCLegacies/issues) and possible [contributions](https://github.com/ItsMitlit/MCLegacies) so that I can make a better finished product.
 
