@@ -7,6 +7,7 @@ import it.mitl.mclegacies.client.ExperienceBarColourChanger;
 import it.mitl.mclegacies.client.keybind.ToggleBuffKeybind;
 import it.mitl.mclegacies.network.ModMessages;
 import it.mitl.mclegacies.network.packet.BloodSuckC2SPacket;
+import it.mitl.mclegacies.network.packet.EntityCompulsionC2SPacket;
 import it.mitl.mclegacies.network.packet.ToggleBuffedC2SPacket;
 import it.mitl.mclegacies.network.packet.VillagerDiscountC2SPacket;
 import it.mitl.mclegacies.subroutine.VariableManager;
@@ -14,7 +15,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -57,9 +60,16 @@ public class ClientEvents {
             HitResult hit = Minecraft.getInstance().hitResult;
             if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
                 Entity target = ((EntityHitResult) hit).getEntity();
-                if (target instanceof Villager villager) {
+                boolean isCrouching = Minecraft.getInstance().player.isCrouching();
+                if (target instanceof Villager villager && isCrouching) {
                     // Send packet to server to request discount
                     ModMessages.sendToServer(new VillagerDiscountC2SPacket(villager.getUUID()));
+                } else if (!(target instanceof AbstractClientPlayer) && (target instanceof LivingEntity)) {
+                    if (((LivingEntity) target).getHealth() > 50.0f) {
+                        Minecraft.getInstance().player.displayClientMessage(Component.literal("§4This mob is too powerful for your compulsion!"), true);
+                        return;
+                    }
+                    ModMessages.sendToServer(new EntityCompulsionC2SPacket(target.getUUID()));
                 }
             }
         }

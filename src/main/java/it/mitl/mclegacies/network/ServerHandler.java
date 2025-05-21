@@ -1,6 +1,8 @@
 package it.mitl.mclegacies.network;
 
 import it.mitl.mclegacies.capability.blood.BloodCapability;
+import it.mitl.mclegacies.subroutine.CompelManager;
+import it.mitl.mclegacies.subroutine.FollowEntityGoal;
 import it.mitl.mclegacies.subroutine.VariableManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -9,6 +11,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -61,6 +64,26 @@ public class ServerHandler {
             } else {
                 player.displayClientMessage(Component.literal("§4You have already compelled this villager!"), true);
             }
+        }
+    }
+
+    public static void handleCompelRequest(ServerPlayer player, UUID entityUUID) {
+        ServerLevel level = player.serverLevel();
+        Entity entity = level.getEntity(entityUUID);
+
+        FoodData foodData = player.getFoodData();
+        if (foodData.getFoodLevel() < 6) {
+            player.displayClientMessage(Component.literal("§4You are too hungry to compel this mob!"), true);
+            return;
+        }
+
+        if (entity instanceof Mob mob) {
+            FollowEntityGoal followGoal = new FollowEntityGoal(mob, player, 2.0F);
+            mob.goalSelector.addGoal(1, followGoal);
+
+            CompelManager.compelGoals.put(entityUUID, followGoal);
+            CompelManager.compelTimers.put(entityUUID, 300); // 15 seconds (300 ticks)
+            player.displayClientMessage(Component.literal("§4You have compelled this mob to follow you! (15 sec)"), true);
         }
     }
 
