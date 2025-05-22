@@ -1,4 +1,4 @@
-# Maleficium: Vampires & More!
+# Maleficium: Vampires, Magic & More!
 Welcome to Maleficium! This mod gives players the ability to become vampires with various different abilities, buffs, and debuffs. Please be patient with me and aware that this mod is in **early beta** and I'm uploading this to get [feedback](https://github.com/ItsMitlit/Maleficium/issues) and possible [contributions](https://github.com/ItsMitlit/Maleficium) so that I can make a better finished product.
 
 ## Features
