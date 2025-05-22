@@ -1,5 +1,5 @@
-# MCLegacies: Vampires & More!
-Welcome to MCLegacies! This mod gives players the ability to become vampires with various different abilities, buffs, and debuffs. Please be patient with me and aware that this mod is in **early beta** and I'm uploading this to get [feedback](https://github.com/ItsMitlit/MCLegacies/issues) and possible [contributions](https://github.com/ItsMitlit/MCLegacies) so that I can make a better finished product.
+# Maleficium: Vampires & More!
+Welcome to Maleficium! This mod gives players the ability to become vampires with various different abilities, buffs, and debuffs. Please be patient with me and aware that this mod is in **early beta** and I'm uploading this to get [feedback](https://github.com/ItsMitlit/Maleficium/issues) and possible [contributions](https://github.com/ItsMitlit/Maleficium) so that I can make a better finished product.
 
 ## Features
 - This mod adds the ability to become a vampire `/setspecies vampire` with various different abilities. Other species such as **werewolves** and **witches** will be introduced in future updates.
@@ -23,4 +23,4 @@ The vampire abilities can currently be found in the keybinds under the **MCLegac
 - Daylight Ring ring slot
 
 ## Issues/Suggestions
-Please report issues and create suggestions on the project's [issue tracker](https://github.com/ItsMitlit/MCLegacies/issues)
+Please report issues and create suggestions on the project's [issue tracker](https://github.com/ItsMitlit/Maleficium/issues)
