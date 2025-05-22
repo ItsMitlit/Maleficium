@@ -5,7 +5,7 @@ Welcome to Maleficium! This mod gives players the ability to become vampires wit
 - This mod adds the ability to become a vampire `/setspecies vampire` with various different abilities. Other species such as **werewolves** and **witches** will be introduced in future updates.
 
 ## Current Abilities
-The vampire abilities can currently be found in the keybinds under the **MCLegacies** heading. Such abilities include:
+The vampire abilities can currently be found in the keybinds under the **Maleficium** heading. Such abilities include:
 - **Compulsion** `v` - Compell a villager to give lower trade prices
     - Reduce villager prices by **50%**
     - Reduces hunger significantly.
