@@ -13,7 +13,9 @@ import static it.mitl.maleficium.Maleficium.MOD_ID;
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class VampireEatEvent {
     @SubscribeEvent
-    public static void onPlayerEat(PlayerInteractEvent event) {
+    public static void onPlayerEat(PlayerInteractEvent.RightClickItem event) {
+        if (!event.isCancelable()) return;
+
         Player player = event.getEntity();
         ItemStack itemStack = event.getItemStack();
 
