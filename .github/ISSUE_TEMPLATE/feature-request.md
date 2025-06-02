@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest an idea for the mod.
+about: Suggest an idea/change for the mod.
 title: "[FEAUTRE] "
 labels: enhancement
 assignees: ItsMitlit
