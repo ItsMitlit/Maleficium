@@ -35,7 +35,7 @@ public class VampireAttributeEvent {
         boolean isHuman = "human".equals(VariableManager.getSpecies(player));
 
         // Strength Modifier
-        if (isVampire) {
+        if (isVampire && player.getHealth() > 1.0F) { // Only apply strength if the player is a vampire and has more than 1/2 a heart of health
             if (player.getAttribute(Attributes.ATTACK_DAMAGE).getModifier(STRENGTH_MODIFIER_UUID) == null) {
                 player.getAttribute(Attributes.ATTACK_DAMAGE).addPermanentModifier(
                         new AttributeModifier(STRENGTH_MODIFIER_UUID, "Vampire strength boost", MaleficiumCommonConfigs.VAMPIRE_STRENGTH_MULTIPLIER.get(), AttributeModifier.Operation.MULTIPLY_TOTAL)
@@ -46,7 +46,7 @@ public class VampireAttributeEvent {
         }
 
         // Health Modifier
-        if (isVampire) {
+        if (isVampire && player.getHealth() > 1.0F) { // Only apply health boost if the player is a vampire and has more than 1/2 a heart of health
             if (player.getAttribute(Attributes.MAX_HEALTH).getModifier(HEALTH_MODIFIER_UUID) == null) {
                 player.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(
                         new AttributeModifier(HEALTH_MODIFIER_UUID, "Vampire health boost", MaleficiumCommonConfigs.VAMPIRE_HEALTH_INCREASE.get(), AttributeModifier.Operation.ADDITION)
@@ -63,7 +63,7 @@ public class VampireAttributeEvent {
         }
 
         // Speed Modifier
-        if (!isHuman && VariableManager.isBuffed(player)) {
+        if (!isHuman && VariableManager.isBuffed(player) && player.getHealth() > 1.0F) { // Only apply speed boost if the player is a vampire, buffed, and has more than 1/2 a heart of health
             if (player.getAttribute(Attributes.MOVEMENT_SPEED).getModifier(SPEED_MODIFIER_UUID) == null) {
                 player.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(
                         new AttributeModifier(SPEED_MODIFIER_UUID, "Vampire speed boost", 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL)
@@ -88,7 +88,7 @@ public class VampireAttributeEvent {
     public static void onPlayerJump(LivingEvent.LivingJumpEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (!"vampire".equals(VariableManager.getSpecies(player))) return;
-            if (!VariableManager.isBuffed(player)) return;
+            if (!VariableManager.isBuffed(player) || player.getHealth() <= 1.0F) return;
             player.setDeltaMovement(player.getDeltaMovement().add(0, 0.2, 0)); // up, up, and away
         }
     }
@@ -97,7 +97,7 @@ public class VampireAttributeEvent {
     public static void onPlayerFall(LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (!"vampire".equals(VariableManager.getSpecies(player))) return;
-            if (!VariableManager.isBuffed(player)) return;
+            if (!VariableManager.isBuffed(player) || player.getHealth() <= 1.0F) return;
             //event.setDistance(event.getDistance() * 0.7f); // reduce fall damage by 30% to try account for the jump boost
             event.setDistance(event.getDistance() - 1.5f); // reduce fall damage by 1 and a half blocks.
         }
