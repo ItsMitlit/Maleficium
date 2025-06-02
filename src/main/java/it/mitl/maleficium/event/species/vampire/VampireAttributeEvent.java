@@ -46,7 +46,7 @@ public class VampireAttributeEvent {
         }
 
         // Health Modifier
-        if (isVampire && player.getHealth() > 1.0F) { // Only apply health boost if the player is a vampire and has more than 1/2 a heart of health
+        if (isVampire) { // Only apply health boost if the player is a vampire and has more than 1/2 a heart of health
             if (player.getAttribute(Attributes.MAX_HEALTH).getModifier(HEALTH_MODIFIER_UUID) == null) {
                 player.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(
                         new AttributeModifier(HEALTH_MODIFIER_UUID, "Vampire health boost", MaleficiumCommonConfigs.VAMPIRE_HEALTH_INCREASE.get(), AttributeModifier.Operation.ADDITION)
