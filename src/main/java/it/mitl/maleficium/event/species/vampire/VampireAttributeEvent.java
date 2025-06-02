@@ -72,16 +72,6 @@ public class VampireAttributeEvent {
         } else if (player.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
             Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(SPEED_MODIFIER_UUID);
         }
-//        // Jump Modifier
-//        if (!isHuman && VariableManager.isBuffed(player)) {
-//            if (player.getAttribute(Attributes.).getModifier(JUMP_MODIFIER_UUID) == null) {
-//                player.getAttribute(Attributes.JUMP_STRENGTH).addPermanentModifier(
-//                        new AttributeModifier(JUMP_MODIFIER_UUID, "Vampire jump boost", 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL)
-//                );
-//            }
-//        } else if (player.getAttribute(Attributes.JUMP_STRENGTH) != null) {
-//            Objects.requireNonNull(player.getAttribute(Attributes.JUMP_STRENGTH)).removeModifier(JUMP_MODIFIER_UUID);
-//        }
     }
 
     @SubscribeEvent

@@ -21,6 +21,11 @@ public class VampireNearDeathEvent {
         if (!(event.getEntity() instanceof Player player)) return;
         if (!"vampire".equals(VariableManager.getSpecies(player))) return;
 
+        if (player.getHealth() <= 1.0F) {
+            player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() - 2);
+            event.setCanceled(true);
+            return;
+        }
         float healthAfter = player.getHealth() - event.getAmount();
         if (healthAfter < 1.0F) {
             if (event.getSource().is(DamageTypes.IN_FIRE) ||
