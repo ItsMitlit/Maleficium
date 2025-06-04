@@ -2,7 +2,9 @@ package it.mitl.maleficium.item;
 
 import it.mitl.maleficium.RegistryHandler;
 import it.mitl.maleficium.item.custom.DaylightRingItem;
+import it.mitl.maleficium.item.custom.WhiteOakStakeItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -27,6 +29,9 @@ public class ModItems {
         }
         return new DaylightRingItem();
     });
+
+    public static final RegistryObject<Item> WHITE_OAK_STAKE = ITEMS.register("white_oak_stake",
+            () -> new WhiteOakStakeItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

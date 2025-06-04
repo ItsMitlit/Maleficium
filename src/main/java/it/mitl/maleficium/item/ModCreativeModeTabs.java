@@ -19,6 +19,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.maleficium_tab"))
                     .displayItems((displayParameters, output) -> {
                         output.accept(ModItems.DAYLIGHT_RING.get());
+                        output.accept(ModItems.WHITE_OAK_STAKE.get());
                     }).build());
 
     public static void register(IEventBus eventBus) {
