@@ -45,7 +45,7 @@ public class VampireBurnEvent {
 
         // Check if it is daytime
         long timeOfDay = level.getDayTime() % 24000;
-        if (timeOfDay < 1000 || timeOfDay > 13000) return;
+        if (timeOfDay < 23460 && timeOfDay > 12542) return;
 
         // Check if there are no blocks above the player's head
         if (level.canSeeSky(player.blockPosition())) {
