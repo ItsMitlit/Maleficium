@@ -40,7 +40,7 @@ public class VampireDeathEvent {
     }
 
     public static boolean meetsVampireDeathConditions(LivingDamageEvent event) {
-        return event.getSource().is(DamageTypes.IN_FIRE) || (event.getSource().is(DamageTypes.ON_FIRE) || (event.getSource().is(DamageTypes.FELL_OUT_OF_WORLD)) || (event.getSource().getDirectEntity() instanceof LivingEntity attacker && attacker.getMainHandItem().getItem() == Items.WOODEN_SWORD));
+        return event.getSource().is(DamageTypes.IN_FIRE) || (event.getSource().is(DamageTypes.ON_FIRE) || (event.getSource().is(DamageTypes.LAVA)) || (event.getSource().is(DamageTypes.FELL_OUT_OF_WORLD)) || (event.getSource().getDirectEntity() instanceof LivingEntity attacker && attacker.getMainHandItem().getItem() == Items.WOODEN_SWORD));
     }
 
     @SubscribeEvent
