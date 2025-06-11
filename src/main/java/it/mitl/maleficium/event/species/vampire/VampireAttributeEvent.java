@@ -2,6 +2,9 @@ package it.mitl.maleficium.event.species.vampire;
 
 import it.mitl.maleficium.config.MaleficiumCommonConfigs;
 import it.mitl.maleficium.subroutine.VariableManager;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -72,6 +75,14 @@ public class VampireAttributeEvent {
         } else if (player.getAttribute(Attributes.MOVEMENT_SPEED) != null) {
             Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(SPEED_MODIFIER_UUID);
         }
+
+        // Near death negative effects
+        if (isVampire && player.getHealth() <= 1.0F) {
+            applyEffectIfMissing(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 1);
+            applyEffectIfMissing(player, MobEffects.WEAKNESS, 60, 1);
+            applyEffectIfMissing(player, MobEffects.DIG_SLOWDOWN, 60, 1);
+            applyEffectIfMissing(player, MobEffects.BLINDNESS, 60, 0);
+        }
     }
 
     @SubscribeEvent
@@ -90,6 +101,13 @@ public class VampireAttributeEvent {
             if (!VariableManager.isBuffed(player) || player.getHealth() <= 1.0F) return;
             //event.setDistance(event.getDistance() * 0.7f); // reduce fall damage by 30% to try account for the jump boost
             event.setDistance(event.getDistance() - 1.5f); // reduce fall damage by 1 and a half blocks.
+        }
+    }
+
+    private static void applyEffectIfMissing(Player player, MobEffect effect, int duration, int amplifier) {
+        MobEffectInstance currentEffect = player.getEffect(effect);
+        if (currentEffect == null || currentEffect.getDuration() < duration - 1) {
+            player.addEffect(new MobEffectInstance(effect, duration, amplifier, true, false));
         }
     }
 }
