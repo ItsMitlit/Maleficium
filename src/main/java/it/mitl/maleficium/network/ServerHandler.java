@@ -78,12 +78,26 @@ public class ServerHandler {
         }
 
         if (entity instanceof Mob mob) {
-            FollowEntityGoal followGoal = new FollowEntityGoal(mob, player, 2.0F);
+            long gameTime = level.getGameTime();
+            long followUntil = mob.level().getGameTime() + (20 * 15); // 15 seconds
+            if (mob.getPersistentData().contains("FollowUntil")) {
+                long existingFollowUntil = mob.getPersistentData().getLong("FollowUntil");
+                if (existingFollowUntil > gameTime) {
+                    player.displayClientMessage(Component.literal("§4This mob is already compelled to follow you!"), true);
+                    return;
+                }
+            }
+            mob.getPersistentData().putLong("FollowUntil", followUntil);
+            FollowEntityGoal followGoal = new FollowEntityGoal(mob, player, 1.2D, 2.0F);
             mob.goalSelector.addGoal(1, followGoal);
-
-            CompelManager.compelGoals.put(entityUUID, followGoal);
-            CompelManager.compelTimers.put(entityUUID, 300); // 15 seconds (300 ticks)
             player.displayClientMessage(Component.literal("§4You have compelled this mob to follow you! (15 sec)"), true);
+//            if (!CompelManager.compelGoals.containsKey(entityUUID)) {
+//
+//
+//                CompelManager.compelGoals.put(entityUUID, followGoal);
+//                CompelManager.compelTimers.put(entityUUID, 300); // 15 seconds
+//
+//            }
         }
     }
 
