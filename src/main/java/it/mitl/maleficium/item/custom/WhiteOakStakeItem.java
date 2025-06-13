@@ -24,7 +24,7 @@ public class WhiteOakStakeItem extends Item {
     }
 
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (attacker instanceof Player player && "vampire".equals(VariableManager.getSpecies(player))) {
+        if (attacker instanceof Player player && target instanceof Player && "vampire".equals(VariableManager.getSpecies(target))) {
             target.kill();
             return false;
         }
