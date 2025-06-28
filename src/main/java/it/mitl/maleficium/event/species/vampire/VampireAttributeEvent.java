@@ -66,7 +66,7 @@ public class VampireAttributeEvent {
         }
 
         // Speed Modifier
-        if (!isHuman && VariableManager.isBuffed(player) && player.getHealth() > 1.0F) { // Only apply speed boost if the player is a vampire, buffed, and has more than 1/2 a heart of health
+        if (isVampire && VariableManager.isBuffed(player) && player.getHealth() > 1.0F) { // Only apply speed boost if the player is a vampire, buffed, and has more than 1/2 a heart of health
             if (player.getAttribute(Attributes.MOVEMENT_SPEED).getModifier(SPEED_MODIFIER_UUID) == null) {
                 player.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(
                         new AttributeModifier(SPEED_MODIFIER_UUID, "Vampire speed boost", 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL)
