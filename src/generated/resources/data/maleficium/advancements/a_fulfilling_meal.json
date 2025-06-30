@@ -1,0 +1,29 @@
+{
+  "parent": "maleficium:first_blood",
+  "criteria": {
+    "a_fulfilling_meal": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "text": "Drain a mob to death."
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:cooked_beef"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "A Fulfilling Meal"
+    }
+  },
+  "requirements": [
+    [
+      "a_fulfilling_meal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

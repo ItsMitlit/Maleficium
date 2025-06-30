@@ -1,0 +1,29 @@
+{
+  "parent": "maleficium:first_blood",
+  "criteria": {
+    "enemy_of_the_village": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "text": "Kill a villager by draining them."
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:villager_spawn_egg"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Enemy of the Village"
+    }
+  },
+  "requirements": [
+    [
+      "enemy_of_the_village"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

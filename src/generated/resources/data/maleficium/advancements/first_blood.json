@@ -1,0 +1,29 @@
+{
+  "parent": "maleficium:become_vampire",
+  "criteria": {
+    "first_blood": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "text": "Your first taste of blood... Tastes like chicken!"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:cooked_chicken"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "First Blood"
+    }
+  },
+  "requirements": [
+    [
+      "first_blood"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

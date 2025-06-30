@@ -1,10 +1,13 @@
 package it.mitl.maleficium.network;
 
+import it.mitl.maleficium.Maleficium;
 import it.mitl.maleficium.capability.blood.BloodCapability;
 import it.mitl.maleficium.subroutine.CompelManager;
 import it.mitl.maleficium.subroutine.FollowEntityGoal;
 import it.mitl.maleficium.subroutine.VariableManager;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -117,6 +120,10 @@ public class ServerHandler {
                     entity.kill();
                     player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 2, true, false)); // 100 ticks = 5 seconds
                     player.displayClientMessage(Component.literal("§4You drained the villager to death!"), true);
+                    Advancement aFulfillingMealAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "a_fulfilling_meal"));
+                    Advancement enemyOfTheVillageAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "enemy_of_the_village"));
+                    player.getAdvancements().award(aFulfillingMealAdvancement, "a_fulfilling_meal");
+                    player.getAdvancements().award(enemyOfTheVillageAdvancement, "enemy_of_the_village");
                     return;
                 }
                 blood.setBlood(currentBlood - 2); // Decrease blood by 2 points
@@ -127,6 +134,8 @@ public class ServerHandler {
                     entity.kill();
                     player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 2, true, false)); // 100 ticks = 5 seconds
                     player.displayClientMessage(Component.literal("§4You drained the mob to death!"), true);
+                    Advancement aFulfillingMealAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "a_fulfilling_meal"));
+                    player.getAdvancements().award(aFulfillingMealAdvancement, "a_fulfilling_meal");
                     return;
                 }
                 blood.setBlood(currentBlood - 1); // Decrease blood by 1 point
@@ -139,6 +148,10 @@ public class ServerHandler {
             int newBloodInt = (int) newBlood;
             int maxBloodInt = (int) blood.getMaxBlood();
             player.displayClientMessage(Component.literal("§4You have sucked blood from this mob! (" + newBloodInt + "/" + maxBloodInt + ")"), true);
+            // If the player doesn't have the firstBloodAdvancement advancement, grant it
+            Advancement firstBloodAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "first_blood"));
+            player.getAdvancements().award(firstBloodAdvancement, "first_blood");
+
         });
     }
 
