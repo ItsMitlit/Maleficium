@@ -15,11 +15,13 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -170,7 +172,7 @@ public class ServerHandler {
             if (entity instanceof LivingEntity livingEntity) {
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 255, true, false));
             }
-            if (entity instanceof Villager) {
+            if (entity instanceof Villager villager) {
                 if (currentBlood <= 2) {
                     entity.kill();
                     player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 2, true, false)); // 100 ticks = 5 seconds
@@ -179,6 +181,11 @@ public class ServerHandler {
                     Advancement enemyOfTheVillageAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "enemy_of_the_village"));
                     player.getAdvancements().award(aFulfillingMealAdvancement, "a_fulfilling_meal");
                     player.getAdvancements().award(enemyOfTheVillageAdvancement, "enemy_of_the_village");
+
+                    // Anger nearby golems in a 25 block radius
+                    AABB searchArea = new AABB(villager.blockPosition()).inflate(25);
+                    player.level().getEntitiesOfClass(IronGolem.class, searchArea, golem -> golem.isAlive())
+                            .forEach(golem -> golem.setTarget(player));
                     return;
                 }
                 blood.setBlood(currentBlood - 2); // Decrease blood by 2 points
