@@ -2,10 +2,10 @@ package it.mitl.maleficium.network;
 
 import it.mitl.maleficium.Maleficium;
 import it.mitl.maleficium.capability.blood.BloodCapability;
-import it.mitl.maleficium.subroutine.CompelManager;
 import it.mitl.maleficium.subroutine.FollowEntityGoal;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -18,7 +18,10 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,6 +30,58 @@ import java.util.UUID;
 public class ServerHandler {
     // This could be better stored in capabilities later
     private static final Set<String> usedVillagers = new HashSet<>();
+
+    public static void handleFastTravelRequest(ServerPlayer player) {
+        // Teleport the player to the block they are looking at (within 100 blocks)
+        if (!"vampire".equals(VariableManager.getSpecies(player))) {
+            return; // Player isn't a vampire
+        }
+        FoodData foodData = player.getFoodData();
+        if (foodData.getFoodLevel() < 8) {
+            player.displayClientMessage(Component.literal("§4You are too hungry to use this ability!"), true);
+            return; // Player is too hungry
+        }
+        // Get the block the player is looking at
+        Vec3 eyePosition = player.getEyePosition();
+        Vec3 lookVector = player.getViewVector(1.0F).scale(100);
+
+        HitResult hitResult = player.level().clip(new ClipContext(
+                eyePosition,
+                eyePosition.add(lookVector),
+                ClipContext.Block.OUTLINE,
+                ClipContext.Fluid.NONE,
+                player
+        ));
+        if (hitResult.getType() == HitResult.Type.BLOCK) {
+            Vec3 targetPosition = hitResult.getLocation();
+            Vec3 startPosition = player.position();
+
+            // Create a trail of particles
+            double distance = startPosition.distanceTo(targetPosition);
+            int particleCount = (int) (distance * 10); // Density
+            for (int i = 0; i <= particleCount; i++) {
+                double progress = i / (double) particleCount;
+                double x = startPosition.x + (targetPosition.x - startPosition.x) * progress;
+                double y = startPosition.y + (targetPosition.y - startPosition.y) * progress;
+                double z = startPosition.z + (targetPosition.z - startPosition.z) * progress;
+
+                if (player.level() instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(
+                            ParticleTypes.SMOKE,
+                            x, y, z,
+                            1,
+                            0, 0, 0,
+                            0.0
+                    );
+                }
+            }
+
+            // Teleport the player
+            // player.displayClientMessage(Component.literal("New Coordinates: " + targetPosition), true);
+            player.teleportTo(targetPosition.x(), targetPosition.y(), targetPosition.z());
+            foodData.setFoodLevel(foodData.getFoodLevel() - 8); // Reduce hunger by 8 points (4 blood)
+        }
+    }
 
     public static void handleDiscountRequest(ServerPlayer player, UUID villagerUUID) {
         Level world = player.level();

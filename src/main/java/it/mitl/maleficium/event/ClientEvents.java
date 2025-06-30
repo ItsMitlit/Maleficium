@@ -4,12 +4,10 @@ import it.mitl.maleficium.Maleficium;
 import it.mitl.maleficium.client.keybind.BloodSuckKeybind;
 import it.mitl.maleficium.client.keybind.CompulsionKeybind;
 import it.mitl.maleficium.client.ExperienceBarColourChanger;
+import it.mitl.maleficium.client.keybind.FastTravelKeybind;
 import it.mitl.maleficium.client.keybind.ToggleBuffKeybind;
 import it.mitl.maleficium.network.ModMessages;
-import it.mitl.maleficium.network.packet.BloodSuckC2SPacket;
-import it.mitl.maleficium.network.packet.EntityCompulsionC2SPacket;
-import it.mitl.maleficium.network.packet.ToggleBuffedC2SPacket;
-import it.mitl.maleficium.network.packet.VillagerDiscountC2SPacket;
+import it.mitl.maleficium.network.packet.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.chat.Component;
@@ -47,6 +45,7 @@ public class ClientEvents {
         CompulsionKeybind.register(event);
         BloodSuckKeybind.register(event);
         ToggleBuffKeybind.register(event);
+        FastTravelKeybind.register(event);
     }
 
     private static long lastBloodSuckTime = 0;
@@ -85,6 +84,9 @@ public class ClientEvents {
         }
         if (ToggleBuffKeybind.TOGGLE_BUFF_KEY.consumeClick()) {
             ModMessages.sendToServer(new ToggleBuffedC2SPacket());
+        }
+        if (FastTravelKeybind.FAST_TRAVEL_KEY.consumeClick()) {
+            ModMessages.sendToServer(new FastTravelC2SPacket());
         }
     }
 }

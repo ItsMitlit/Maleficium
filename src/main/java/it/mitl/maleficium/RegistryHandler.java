@@ -7,10 +7,7 @@ import it.mitl.maleficium.event.ModEvents;
 import it.mitl.maleficium.item.ModCreativeModeTabs;
 import it.mitl.maleficium.item.ModItems;
 import it.mitl.maleficium.network.ModMessages;
-import it.mitl.maleficium.network.packet.BloodSuckC2SPacket;
-import it.mitl.maleficium.network.packet.EntityCompulsionC2SPacket;
-import it.mitl.maleficium.network.packet.ToggleBuffedC2SPacket;
-import it.mitl.maleficium.network.packet.VillagerDiscountC2SPacket;
+import it.mitl.maleficium.network.packet.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -51,6 +48,12 @@ public class RegistryHandler {
                 EntityCompulsionC2SPacket::toBytes,
                 EntityCompulsionC2SPacket::new,
                 EntityCompulsionC2SPacket::handle
+        );
+        ModMessages.addNetworkMessage(
+                FastTravelC2SPacket.class,
+                FastTravelC2SPacket::toBytes,
+                FastTravelC2SPacket::new,
+                FastTravelC2SPacket::handle
         );
 
         MinecraftForge.EVENT_BUS.register(ModMessages.class);

@@ -1,0 +1,16 @@
+{
+  "name": "Fast Travel",
+  "icon": "minecraft:textures/particle/big_smoke_4.png",
+  "category": "maleficium:abilities",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "As a vampire, you can move quickly and gracefully. This ability allows you to travel at remarkable speed, making it easier to escape danger or chase down prey. Use the fast travel keybind ($(k:maleficium.fast_travel)) to use this ability. Note that this ability has a range of 100 blocks and can be used to essentially teleport to a location within that range."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Hunger Requirement",
+      "text": "This ability requires you to have at least 4 full blood points which will be consumed when you use it. If you do not have enough blood points, the ability will not work."
+    }
+  ]
+}
