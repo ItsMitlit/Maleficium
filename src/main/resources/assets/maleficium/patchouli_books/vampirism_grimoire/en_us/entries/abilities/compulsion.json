@@ -1,0 +1,27 @@
+{
+  "name": "Compulsion",
+  "icon": "minecraft:wheat",
+  "category": "maleficium:abilities",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "In the world of Maleficium, vampires possess a unique ability known as $(6)Compulsion$(). This power allows them to exert control over the minds of others, bending their will to serve the vampire's desires.$(br2)This entry will explain how to use this ability effectively."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Usage",
+      "text": "To use Compulsion, simply press your Compulsion keybind ($(k:maleficium.compel)) while looking at a target. When doing this, the target will be either compelled to follow you or do something else, depending on the mob."
+    },
+    {
+      "type": "patchouli:entity",
+      "name": "Villagers",
+      "entity": "minecraft:villager",
+      "scale": 0.7
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Villagers",
+      "text": "Unlike other mobs, villagers have an extra option when using Compulsion. When you hold down crouch while using Compulsion on a villager, you can $(6)compel them to offer cheaper trades$()."
+    }
+  ]
+}

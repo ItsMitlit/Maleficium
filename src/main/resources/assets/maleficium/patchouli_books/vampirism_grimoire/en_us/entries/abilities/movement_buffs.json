@@ -1,0 +1,11 @@
+{
+  "name": "Movement Buffs",
+  "icon": "minecraft:textures/mob_effect/speed.png",
+  "category": "maleficium:abilities",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "As a vampire, you gain various movement buffs that enhance your abilities. These buffs can be activated by using the toggle keybind ($(k:maleficium.toggle_buff)). The buffs include increased speed, jump power, and more."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "parent": "maleficium:maleficium",
+  "criteria": {
+    "become_witch": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "text": "Become a master of magic"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:brewing_stand"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Become a Witch"
+    }
+  },
+  "requirements": [
+    [
+      "become_witch"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

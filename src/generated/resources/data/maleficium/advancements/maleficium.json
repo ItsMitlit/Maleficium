@@ -1,0 +1,29 @@
+{
+  "criteria": {
+    "on_join": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "minecraft:textures/particle/enchanted_hit.png",
+    "description": {
+      "text": "Magic in Minecraft"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "maleficium:white_oak_stake"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Maleficium"
+    }
+  },
+  "requirements": [
+    [
+      "on_join"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -25,7 +25,41 @@ public class ModAdvancementProvider implements ForgeAdvancementProvider.Advancem
                         Component.literal("Maleficium"), Component.literal("Magic in Minecraft"),
                         new ResourceLocation("minecraft", "textures/particle/enchanted_hit.png"), FrameType.TASK,
                         true, true, false))
-                .addCriterion("on_join", new ImpossibleTrigger.TriggerInstance())
+                .addCriterion("on_join",
+                        new ImpossibleTrigger.TriggerInstance())
                 .save(saver, new ResourceLocation(Maleficium.MOD_ID, "maleficium"), existingFileHelper);
+
+        Advancement becomeVampireAdvancement = Advancement.Builder.advancement()
+                .display(new DisplayInfo(
+                        new ItemStack(Items.BAT_SPAWN_EGG),
+                        Component.literal("Become a Vampire"), Component.literal("Become a creature of the night"),
+                        null, FrameType.TASK,
+                        true, true, false))
+                .parent(rootAdvancement)
+                .addCriterion("become_vampire",
+                        new ImpossibleTrigger.TriggerInstance())
+                .save(saver, new ResourceLocation(Maleficium.MOD_ID, "become_vampire"), existingFileHelper);
+
+        Advancement becomeWitchAdvancement = Advancement.Builder.advancement()
+                .display(new DisplayInfo(
+                        new ItemStack(Items.BREWING_STAND),
+                        Component.literal("Become a Witch"), Component.literal("Become a master of magic"),
+                        null, FrameType.TASK,
+                        true, true, false))
+                .parent(rootAdvancement)
+                .addCriterion("become_witch",
+                        new ImpossibleTrigger.TriggerInstance())
+                .save(saver, new ResourceLocation(Maleficium.MOD_ID, "become_witch"), existingFileHelper);
+
+        Advancement becomeWerewolfAdvancement = Advancement.Builder.advancement()
+                .display(new DisplayInfo(
+                        new ItemStack(Items.BONE),
+                        Component.literal("Become a Werewolf"), Component.literal("Become a beast of the full moon"),
+                        null, FrameType.TASK,
+                        true, true, false))
+                .parent(rootAdvancement)
+                .addCriterion("become_werewolf",
+                        new ImpossibleTrigger.TriggerInstance())
+                .save(saver, new ResourceLocation(Maleficium.MOD_ID, "become_werewolf"), existingFileHelper);
     }
 }

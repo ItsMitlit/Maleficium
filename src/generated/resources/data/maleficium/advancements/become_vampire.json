@@ -1,0 +1,29 @@
+{
+  "parent": "maleficium:maleficium",
+  "criteria": {
+    "become_vampire": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "text": "Become a creature of the night"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:bat_spawn_egg"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Become a Vampire"
+    }
+  },
+  "requirements": [
+    [
+      "become_vampire"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

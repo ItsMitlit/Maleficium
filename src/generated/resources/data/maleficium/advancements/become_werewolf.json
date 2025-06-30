@@ -1,0 +1,29 @@
+{
+  "parent": "maleficium:maleficium",
+  "criteria": {
+    "become_werewolf": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "text": "Become a beast of the full moon"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:bone"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Become a Werewolf"
+    }
+  },
+  "requirements": [
+    [
+      "become_werewolf"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

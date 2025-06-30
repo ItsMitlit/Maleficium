@@ -1,0 +1,37 @@
+{
+  "name": "Sucking Blood",
+  "icon": "maleficium:textures/gui/full_blood_drop.png",
+  "category": "maleficium:abilities",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "As you've probably learned, Vampires don't just drink blood for fun. They need it to survive! Blood is the source of a vampire's power, and without it, they will weaken and slip into a lifeless, desiccated state. Without regular feeding, a vampire will eventually weaken and become a mummified shell."
+    },
+    {
+      "type": "patchouli:text",
+      "name": "Feeding",
+        "text": "$(6)\uD83E\uDE78 Feeding Mechanics: Staying Alive by Draining Life$()$(br2)To feed, a vampire must find a living creature and use the blood suck keybind ($(k:maleficium.suck_blood)).$(br2)Activating this keybind causes the vampire to begin feeding, $(o)replenishing their blood level$()—the source of their strength and survival."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(6)\uD83E\uDE78 Feeding Mechanics: How It Works$()$(br2)While feeding, the target will be $(o)incapacitated briefly$(), unable to move or fight back.$(br)$(li)Press the key once to feed a single time.$(br)$(li)Hold the key to feed continuously until you're satisfied—or the target runs dry.$(br2)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(6)\uD83E\uDE78 Feeding Mechanics: How It Works$()$(br2)Feeding does not work on undead creatures,$() such as zombies or skeletons. Only $(1)living creatures$() offer the nourishing blood your vampire body needs.$(br2)Go to the next page for more info on which mobs make the most satisfying meals."
+    },
+    {
+      "type": "patchouli:image",
+      "images": ["maleficium:textures/misc/mitlit_skin_bust.png"],
+      "title": "Players",
+      "text": "Players are easily the most satisfying meals for vampires, but also the most dangerous."
+    },
+    {
+      "type": "patchouli:entity",
+      "name": "Villagers",
+      "entity": "minecraft:villager",
+      "scale": 0.7,
+      "text": "Villagers are among the best sources of blood for vampires, providing more blood than most other mobs."
+    }
+  ]
+}

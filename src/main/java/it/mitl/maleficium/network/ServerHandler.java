@@ -144,8 +144,8 @@ public class ServerHandler {
 
     public static void handleBuffToggleRequest(ServerPlayer player) {
 
-        // Ignore if the player is a human
-        if ("human".equals(VariableManager.getSpecies(player))) return;
+        // Ignore if the player isn't a vampire or werewolf
+        if (!"vampire".equals(VariableManager.getSpecies(player)) && !"werewolf".equals(VariableManager.getSpecies(player))) return;
 
         // Toggle the buffed state
         VariableManager.setBuffed(!VariableManager.isBuffed(player), player);

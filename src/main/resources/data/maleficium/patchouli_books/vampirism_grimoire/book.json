@@ -1,0 +1,10 @@
+{
+  "name": "Maleficium: Vampirism",
+  "landing_text": "Welcome to the Maleficium Vampirism Grimoire. This book contains all the knowledge you need to harness your powers and become the powerful vampire you are destined to become.",
+  "version": 1,
+  "creative_tab": "maleficium:maleficium_tab",
+  "use_resource_pack": true,
+  "book_texture": "patchouli:textures/gui/book_red.png",
+  "creative_tab": "maleficium:maleficium_tab",
+  "model": "patchouli:book_red"
+}

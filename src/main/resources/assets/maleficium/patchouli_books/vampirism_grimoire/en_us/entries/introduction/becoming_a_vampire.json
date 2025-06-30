@@ -1,0 +1,18 @@
+{
+  "name": "Becoming a Vampire",
+  "icon": "minecraft:writable_book",
+  "category": "maleficium:introduction",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "There are various ways to become a vampire in the world of Maleficium. The easiest method is to be turned by an existing vampire, which can be done by being bitten. However, there are other methods that are listed here."
+    },
+    {
+      "type": "patchouli:entity",
+        "name": "Witches",
+        "entity": "minecraft:witch",
+        "scale": 0.7,
+        "text": "Vanilla witches can turn players into vampires if they kill them. (witch kills player)"
+    }
+  ]
+}
