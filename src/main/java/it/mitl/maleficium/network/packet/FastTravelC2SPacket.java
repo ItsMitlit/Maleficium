@@ -1,6 +1,6 @@
 package it.mitl.maleficium.network.packet;
 
-import it.mitl.maleficium.network.ServerHandler;
+import it.mitl.maleficium.network.serverhandler.VampireRequests;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
@@ -25,7 +25,7 @@ public class FastTravelC2SPacket {
             if (player == null) return;
 
             // Do the server-side processing
-            ServerHandler.handleFastTravelRequest(player);
+            VampireRequests.handleFastTravelRequest(player);
         });
         context.setPacketHandled(true);
     }

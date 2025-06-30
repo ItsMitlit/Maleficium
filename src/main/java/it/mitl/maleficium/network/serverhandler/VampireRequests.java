@@ -1,4 +1,4 @@
-package it.mitl.maleficium.network;
+package it.mitl.maleficium.network.serverhandler;
 
 import it.mitl.maleficium.Maleficium;
 import it.mitl.maleficium.capability.blood.BloodCapability;
@@ -17,6 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ClipContext;
@@ -25,13 +26,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
-public class ServerHandler {
-    // This could be better stored in capabilities later
-    private static final Set<String> usedVillagers = new HashSet<>();
+public class VampireRequests {
 
     public static void handleFastTravelRequest(ServerPlayer player) {
         // Teleport the player to the block they are looking at (within 100 blocks)
@@ -166,6 +163,18 @@ public class ServerHandler {
         Entity entity = ((ServerLevel) world).getEntity(entityUUID);
 
         if (!"vampire".equals(VariableManager.getSpecies(player))) return;
+
+        // Don't let the player suck blood from mobs with over 20 health
+        if (entity instanceof LivingEntity livingEntity && livingEntity.getMaxHealth() > 40.0f) {
+            player.displayClientMessage(Component.literal("§4You can't suck blood from this mob!"), true);
+            return;
+        }
+
+        // Don't let the player suck blood from other vampires
+        if (entity instanceof Player entityPlayer && ("vampire".equals(VariableManager.getSpecies(entityPlayer)))) {
+            player.displayClientMessage(Component.literal("§4You can't suck blood from another vampire!"), true);
+            return;
+        }
 
         BloodCapability.getBloodCapability(entity).ifPresent(blood -> {
             float currentBlood = blood.getBlood();

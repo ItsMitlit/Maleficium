@@ -62,7 +62,7 @@ public class ClientEvents {
                     // Send packet to server to request discount
                     ModMessages.sendToServer(new VillagerDiscountC2SPacket(villager.getUUID()));
                 } else if (!(target instanceof AbstractClientPlayer) && (target instanceof LivingEntity)) {
-                    if (((LivingEntity) target).getHealth() > 50.0f) {
+                    if (((LivingEntity) target).getMaxHealth() >= 40.0f) {
                         Minecraft.getInstance().player.displayClientMessage(Component.literal("§4This mob is too powerful for your compulsion!"), true);
                         return;
                     }
