@@ -2,6 +2,7 @@ package it.mitl.maleficium;
 
 import it.mitl.maleficium.capability.ModCapabilities;
 import it.mitl.maleficium.config.MaleficiumCommonConfigs;
+import it.mitl.maleficium.effect.ModEffects;
 import it.mitl.maleficium.event.ClientEvents;
 import it.mitl.maleficium.event.ModEvents;
 import it.mitl.maleficium.item.ModCreativeModeTabs;
@@ -61,6 +62,7 @@ public class RegistryHandler {
         ClientEvents.register();
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
+        ModEffects.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(ModEvents.class);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, MaleficiumCommonConfigs.SPEC, "maleficium-common.toml");

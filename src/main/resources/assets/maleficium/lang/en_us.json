@@ -7,5 +7,9 @@
 
   "creativetab.maleficium_tab": "Maleficium",
   "item.maleficium.daylight_ring": "Daylight Ring",
-  "item.maleficium.white_oak_stake": "White Oak Stake"
+  "item.maleficium.white_oak_stake": "White Oak Stake",
+
+  "effect.maleficium.vampiric_transition": "Vampiric Transition",
+
+  "death.attack.transition_death": "%1$s died in transition."
 }

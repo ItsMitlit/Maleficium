@@ -1,0 +1,17 @@
+{
+  "name": "Vampiric Transition",
+  "icon": "maleficium:textures/mob_effect/vampiric_transition.png",
+  "category": "maleficium:introduction",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "When a human with vampire blood in their system dies, they will revive into a state of transition. During this state, the player will have fifteen minutes to choose whether or not they wish to die (for real) or become a vampire."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "The Choice",
+      "text": "If you wish to become a vampire, you must drink the blood of any creature ($(k:maleficium.suck_blood)). Upon doing so, you will be fully transformed into a vampire. If you do not drink blood within the fifteen minute period, you will die."
+    }
+  ]
+}

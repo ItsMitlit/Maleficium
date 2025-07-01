@@ -2,7 +2,7 @@
   "name": "A Brand New Diet",
   "icon": "maleficium:textures/gui/full_blood_drop.png",
   "category": "maleficium:introduction",
-  "sortnum": 1,
+  "sortnum": 2,
   "pages": [
     {
       "type": "patchouli:text",

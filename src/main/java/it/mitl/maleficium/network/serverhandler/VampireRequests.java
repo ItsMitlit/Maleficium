@@ -2,6 +2,7 @@ package it.mitl.maleficium.network.serverhandler;
 
 import it.mitl.maleficium.Maleficium;
 import it.mitl.maleficium.capability.blood.BloodCapability;
+import it.mitl.maleficium.effect.ModEffects;
 import it.mitl.maleficium.subroutine.FollowEntityGoal;
 import it.mitl.maleficium.subroutine.PlayerUtils;
 import it.mitl.maleficium.subroutine.VariableManager;
@@ -11,6 +12,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -178,7 +181,7 @@ public class VampireRequests {
         Level world = player.level();
         Entity entity = ((ServerLevel) world).getEntity(entityUUID);
 
-        if (!"vampire".equals(VariableManager.getSpecies(player))) return;
+        if (!"vampire".equals(VariableManager.getSpecies(player)) && player.getEffect(ModEffects.VAMPIRIC_TRANSITION_EFFECT.get()) == null) return;
 
         // Don't let the player suck blood from mobs with over 20 health
         if (entity instanceof LivingEntity livingEntity && livingEntity.getMaxHealth() > 40.0f) {
@@ -196,6 +199,24 @@ public class VampireRequests {
         if (entity instanceof Player entityPlayer && (entityPlayer.isCreative() || entityPlayer.isSpectator())) {
             player.displayClientMessage(Component.literal("§4You can't suck blood from a player in creative!"), true);
             return;
+        }
+
+        if (player.getEffect(ModEffects.VAMPIRIC_TRANSITION_EFFECT.get()) != null) {
+            player.removeEffect(ModEffects.VAMPIRIC_TRANSITION_EFFECT.get());
+            VariableManager.setSpecies("vampire", player);
+            player.level().playSound(
+                    null,
+                    player.getX(),
+                    player.getY(),
+                    player.getZ(),
+                    SoundEvents.WITHER_SPAWN,
+                    SoundSource.PLAYERS,
+                    1.0F,
+                    1.0F
+            );
+            player.removeAllEffects();
+            player.setHealth(30);
+            player.getFoodData().setFoodLevel(20);
         }
 
         // Player blood sucking logic
