@@ -2,6 +2,7 @@
   "name": "Becoming a Vampire",
   "icon": "minecraft:writable_book",
   "category": "maleficium:introduction",
+  "sortnum": 0,
   "pages": [
     {
       "type": "patchouli:text",

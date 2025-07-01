@@ -1,0 +1,17 @@
+{
+  "name": "A Brand New Diet",
+  "icon": "maleficium:textures/gui/full_blood_drop.png",
+  "category": "maleficium:introduction",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "As you've probably realised, Vampires don't eat regular food. Instead, they live on a blood-based diet. Blood is the source of a vampire's power, and without it, they can't reach their full potential."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Increased Capacity",
+      "text": "As a vampire, you can hold more food than a regular human. Your maximum blood capacity is 40 points (20 full icons), which allows you to use your abilities more frequently and effectively."
+    }
+  ]
+}
