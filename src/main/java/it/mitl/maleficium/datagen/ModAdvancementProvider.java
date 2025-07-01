@@ -70,6 +70,16 @@ public class ModAdvancementProvider implements ForgeAdvancementProvider.Advancem
                 .addCriterion("enemy_of_the_village",
                         new ImpossibleTrigger.TriggerInstance())
                 .save(saver, new ResourceLocation(Maleficium.MOD_ID, "enemy_of_the_village"), existingFileHelper);
+        Advancement isItCannibalismAdvancement = Advancement.Builder.advancement()
+                .display(new DisplayInfo(
+                        new ItemStack(Items.ROTTEN_FLESH),
+                        Component.literal("Is it Cannibalism?"), Component.literal("Drink from another player"),
+                        null, FrameType.TASK,
+                        true, true, false))
+                .parent(firstBloodAdvancement)
+                .addCriterion("is_it_cannibalism",
+                        new ImpossibleTrigger.TriggerInstance())
+                .save(saver, new ResourceLocation(Maleficium.MOD_ID, "is_it_cannibalism"), existingFileHelper);
 
         // Witches
         Advancement becomeWitchAdvancement = Advancement.Builder.advancement()

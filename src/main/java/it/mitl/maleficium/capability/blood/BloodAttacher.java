@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -22,6 +23,7 @@ public class BloodAttacher {
     public static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
         if (!(event.getObject() instanceof LivingEntity living)) return;
         if (living.getMobType() == MobType.UNDEAD) return; // Skip undead
+        if (living instanceof Player) return; // skip players
 
         event.addCapability(new ResourceLocation(MOD_ID, "blood"), new ICapabilityProvider() {
             final BloodCapabilityImpl blood = new BloodCapabilityImpl();

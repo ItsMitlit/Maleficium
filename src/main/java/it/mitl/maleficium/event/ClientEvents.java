@@ -72,14 +72,15 @@ public class ClientEvents {
         }
         if (BloodSuckKeybind.SUCK_BLOOD_KEY.isDown()) {
             long currentTime = System.currentTimeMillis();
-            if (currentTime - lastBloodSuckTime >= 500) { // 0.5 second cooldown
-                HitResult hit = Minecraft.getInstance().hitResult;
-                if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
-                    Entity target = ((EntityHitResult) hit).getEntity();
+            HitResult hit = Minecraft.getInstance().hitResult;
+            if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
+                Entity target = ((EntityHitResult) hit).getEntity();
+                long cooldown = (target instanceof AbstractClientPlayer) ? 1000 : 500;
+                if (currentTime - lastBloodSuckTime >= cooldown) {
                     // Send packet to server to request blood suck.
                     ModMessages.sendToServer(new BloodSuckC2SPacket(target.getUUID()));
+                    lastBloodSuckTime = currentTime;
                 }
-                lastBloodSuckTime = currentTime;
             }
         }
         if (ToggleBuffKeybind.TOGGLE_BUFF_KEY.consumeClick()) {

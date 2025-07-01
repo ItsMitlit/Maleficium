@@ -192,11 +192,50 @@ public class VampireRequests {
             return;
         }
 
+        // Don't let the player suck blood from players in creative or spectator mode
+        if (entity instanceof Player entityPlayer && (entityPlayer.isCreative() || entityPlayer.isSpectator())) {
+            player.displayClientMessage(Component.literal("§4You can't suck blood from a player in creative!"), true);
+            return;
+        }
+
+        // Player blood sucking logic
+
+        if (entity instanceof ServerPlayer playerTarget) {
+            if (entity instanceof LivingEntity livingEntity) {
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 255, true, false));
+            }
+            if (playerTarget.getHealth() <= 1) {
+                playerTarget.hurt(player.damageSources().magic(), 1.0F);
+                PlayerUtils.addHungerForVampire(2, player);
+                player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 2, true, false)); // 100 ticks = 5 seconds
+                player.displayClientMessage(Component.literal("§4You drained the player to death!"), true);
+
+                // Achievements
+                Advancement firstBloodAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "first_blood"));
+                Advancement aFulfillingMealAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "a_fulfilling_meal"));
+                Advancement isItCannibalismAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "is_it_cannibalism"));
+                player.getAdvancements().award(firstBloodAdvancement, "first_blood");
+                player.getAdvancements().award(aFulfillingMealAdvancement, "a_fulfilling_meal");
+                player.getAdvancements().award(isItCannibalismAdvancement, "is_it_cannibalism");
+                return;
+            }
+
+            Advancement firstBloodAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "first_blood"));
+            Advancement isItCannibalismAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "is_it_cannibalism"));
+            player.getAdvancements().award(firstBloodAdvancement, "first_blood");
+            player.getAdvancements().award(isItCannibalismAdvancement, "is_it_cannibalism");
+            playerTarget.hurt(player.damageSources().magic(), 1.0F);
+            player.displayClientMessage(Component.literal("§4You have sucked blood from " + playerTarget.getName().getString() + "! (" + (int) playerTarget.getHealth() + "/" + (int) playerTarget.getMaxHealth() + ")"), true);
+            PlayerUtils.addHungerForVampire(2, player);
+            return;
+        }
+
         BloodCapability.getBloodCapability(entity).ifPresent(blood -> {
             float currentBlood = blood.getBlood();
             if (entity instanceof LivingEntity livingEntity) {
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 255, true, false));
             }
+
             if (entity instanceof Villager villager) {
                 if (currentBlood <= 2) {
                     entity.kill();

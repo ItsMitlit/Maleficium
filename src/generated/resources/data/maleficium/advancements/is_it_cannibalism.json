@@ -1,0 +1,29 @@
+{
+  "parent": "maleficium:first_blood",
+  "criteria": {
+    "is_it_cannibalism": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "text": "Drink from another player"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:rotten_flesh"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "Is it Cannibalism?"
+    }
+  },
+  "requirements": [
+    [
+      "is_it_cannibalism"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
