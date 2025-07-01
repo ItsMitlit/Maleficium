@@ -76,6 +76,13 @@ public class VampireAttributeEvent {
             Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(SPEED_MODIFIER_UUID);
         }
 
+        // Night Vision
+        if (isVampire && player.getHealth() > 1.0F) {
+            applyHiddenEffectIfMissing(player, MobEffects.NIGHT_VISION, -1, 0, false, false, false);
+        } else {
+            player.removeEffect(MobEffects.NIGHT_VISION);
+        }
+
         // Near death negative effects
         if (isVampire && player.getHealth() <= 1.0F) {
             applyEffectIfMissing(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 1);
@@ -108,6 +115,12 @@ public class VampireAttributeEvent {
         MobEffectInstance currentEffect = player.getEffect(effect);
         if (currentEffect == null || currentEffect.getDuration() < duration - 1) {
             player.addEffect(new MobEffectInstance(effect, duration, amplifier, true, false));
+        }
+    }
+    private static void applyHiddenEffectIfMissing(Player player, MobEffect effect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean visible) {
+        MobEffectInstance currentEffect = player.getEffect(effect);
+        if (currentEffect == null || currentEffect.getDuration() < duration - 1) {
+            player.addEffect(new MobEffectInstance(effect, duration, amplifier, ambient, showParticles, visible));
         }
     }
 }
