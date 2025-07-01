@@ -211,10 +211,11 @@ public class VampireRequests {
                     AABB searchArea = new AABB(villager.blockPosition()).inflate(25);
                     player.level().getEntitiesOfClass(IronGolem.class, searchArea, golem -> golem.isAlive())
                             .forEach(golem -> golem.setTarget(player));
+                    PlayerUtils.addHungerForVampire(currentBlood, player);
                     return;
                 }
                 blood.setBlood(currentBlood - 2); // Decrease blood by 2 points
-                player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() + 1); // Add 1 food point because there is another addition at the bottom :D
+                PlayerUtils.addHungerForVampire(1, player); // Add 1 food point
                 player.getFoodData().setSaturation(player.getFoodData().getSaturationLevel() + 1); // Add 1 saturation point
             } else {
                 if (currentBlood == 1) {
@@ -223,14 +224,15 @@ public class VampireRequests {
                     player.displayClientMessage(Component.literal("§4You drained the mob to death!"), true);
                     Advancement aFulfillingMealAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "a_fulfilling_meal"));
                     player.getAdvancements().award(aFulfillingMealAdvancement, "a_fulfilling_meal");
+                    PlayerUtils.addHungerForVampire(1, player);
                     return;
                 }
                 blood.setBlood(currentBlood - 1); // Decrease blood by 1 point
             }
 
             float newBlood = blood.getBlood();
-            if (player.getFoodData().getFoodLevel() < 20) {
-                player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() + 1);
+            if (player.getFoodData().getFoodLevel() < 40) {
+                PlayerUtils.addHungerForVampire(1, player); // Add 1 food point
             }
             int newBloodInt = (int) newBlood;
             int maxBloodInt = (int) blood.getMaxBlood();

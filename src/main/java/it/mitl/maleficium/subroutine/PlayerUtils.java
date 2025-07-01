@@ -36,4 +36,29 @@ public class PlayerUtils {
         // No block below
         return true;
     }
+
+    public static void addHungerForVampire(float amount, ServerPlayer player) {
+        float foodLevel = player.getFoodData().getFoodLevel();
+        float remainingAmount = 0;
+
+        if (foodLevel + amount <= 20) {
+            float newHunger = player.getFoodData().getFoodLevel() + amount;
+            player.getFoodData().setFoodLevel((int) newHunger);
+            return;
+        } else {
+            remainingAmount = (foodLevel + amount) - 20;
+            player.getFoodData().setFoodLevel(20);
+        }
+
+        if (foodLevel == 20) {
+            int extraHunger = VariableManager.getExtraHunger(player);
+            int remainingInt = (int) Math.floor(remainingAmount);
+
+            if (extraHunger + remainingInt <= 20) {
+                VariableManager.setExtraHunger(extraHunger + remainingInt, player);
+            } else {
+                VariableManager.setExtraHunger(20, player);
+            }
+        }
+    }
 }

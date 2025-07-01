@@ -105,6 +105,7 @@ public class ModVariables {
             clone.species = original.species;
             clone.faction = original.faction;
             clone.buffToggle = original.buffToggle;
+            clone.extraHunger = original.extraHunger;
             if (!event.isWasDeath()) {
             }
         }
@@ -159,6 +160,7 @@ public class ModVariables {
         public String species = "human";
         public String faction = "none";
         public boolean buffToggle = false;
+        public int extraHunger = 0;
 
         /**
          * Syncs the player variables to the client.
@@ -180,6 +182,7 @@ public class ModVariables {
             nbt.putString("species", species);
             nbt.putString("faction", faction);
             nbt.putBoolean("buffToggle", buffToggle);
+            nbt.putInt("extraHunger", extraHunger);
             return nbt;
         }
 
@@ -193,6 +196,7 @@ public class ModVariables {
             species = nbt.getString("species");
             faction = nbt.getString("faction");
             buffToggle = nbt.getBoolean("buffToggle");
+            extraHunger = nbt.getInt("extraHunger");
         }
     }
 
@@ -245,6 +249,7 @@ public class ModVariables {
                     variables.species = message.data.species;
                     variables.faction = message.data.faction;
                     variables.buffToggle = message.data.buffToggle;
+                    variables.extraHunger = message.data.extraHunger;
                 }
             });
             context.setPacketHandled(true);

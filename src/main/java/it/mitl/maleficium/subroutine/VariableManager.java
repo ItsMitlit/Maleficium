@@ -73,4 +73,19 @@ public class VariableManager {
 
         return (entity.getCapability(ModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ModVariables.PlayerVariables())).buffToggle;
     }
+
+    public static void setExtraHunger(int value, Entity entity) {
+        if (!(entity instanceof Player player)) return;
+
+        entity.getCapability(ModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
+            capability.extraHunger = value;
+            capability.syncPlayerVariables(entity);
+        });
+    }
+
+    public static int getExtraHunger(Entity entity) {
+        if(!(entity instanceof Player)) return 0;
+
+        return (entity.getCapability(ModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ModVariables.PlayerVariables())).extraHunger;
+    }
 }

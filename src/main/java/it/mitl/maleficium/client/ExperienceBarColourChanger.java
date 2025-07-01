@@ -6,6 +6,7 @@ import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
@@ -88,7 +89,7 @@ public class ExperienceBarColourChanger {
 
             // Draw custom hunger bar
             GuiGraphics guiGraphics = event.getGuiGraphics();
-            int foodLevel = player.getFoodData().getFoodLevel(); // 0–20 (bc minecraft)
+            int foodLevel = player.getFoodData().getFoodLevel() + VariableManager.getExtraHunger(player); // 0–40
             int screenWidth = mc.getWindow().getGuiScaledWidth();
             int screenHeight = mc.getWindow().getGuiScaledHeight();
             int xStart = screenWidth / 2 + 83; // 83 pixels to the right of center
@@ -100,16 +101,28 @@ public class ExperienceBarColourChanger {
                 int y = yStart;
 
                 int u;
-                if (foodLevel >= (i + 1) * 2) {
-                    u = 0; // full
-                } else if (foodLevel == (i * 2) + 1) {
-                    u = 14; // half
+                if (foodLevel > 20) {
+                    if (foodLevel >= 21 + (i * 2)) {
+                        u = 14; // full icon for 21-40
+                    } else if (foodLevel == 21 + (i * 2) - 1) {
+                        u = 28; // half full icon for 21-40
+                    } else {
+                        u = 0; // empty icon
+                    }
                 } else {
-                    u = 7; // empty
+                    if (foodLevel >= (i + 1) * 2) {
+                        u = 0; // full icon for 20 and under
+                    } else if (foodLevel == (i * 2) + 1) {
+                        u = 7; // half full icon for 20 and under
+                    } else {
+                        u = 21; // empty icon
+                    }
                 }
 
-                guiGraphics.blit(HUNGER_ICONS, x, y, u, 0, 7, 9, 21, 9);
+                guiGraphics.blit(HUNGER_ICONS, x, y, u, 0, 7, 9, 35, 9);
             }
+//            int entireFoodLevel = player.getFoodData().getFoodLevel() + VariableManager.getExtraHunger(player);
+//            player.displayClientMessage(Component.literal("You have " + entireFoodLevel + " blood points."), true);
         }
     }
 

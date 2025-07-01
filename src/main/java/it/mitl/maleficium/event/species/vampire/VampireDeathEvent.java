@@ -3,6 +3,7 @@ package it.mitl.maleficium.event.species.vampire;
 import it.mitl.maleficium.config.MaleficiumCommonConfigs;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
@@ -47,13 +48,14 @@ public class VampireDeathEvent {
     public static void onVampireDeath(LivingDeathEvent event) {
         if ((event.getEntity() instanceof Player player) && "vampire".equals(VariableManager.getSpecies(event.getEntity()))) {
             if ("original".equals(VariableManager.getFaction(player))) {
-                net.minecraft.server.MinecraftServer server = player.getServer();
+                MinecraftServer server = player.getServer();
                 if (server != null) {
                     server.getPlayerList().getPlayers().forEach(p ->
                             p.sendSystemMessage(Component.literal("§4An Original has been slain! So too die all of its progeny."))
                     );
                 }
             }
+            VariableManager.setExtraHunger(0, player);
         }
 
     }
