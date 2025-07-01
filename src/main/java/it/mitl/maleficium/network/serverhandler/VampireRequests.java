@@ -3,6 +3,7 @@ package it.mitl.maleficium.network.serverhandler;
 import it.mitl.maleficium.Maleficium;
 import it.mitl.maleficium.capability.blood.BloodCapability;
 import it.mitl.maleficium.subroutine.FollowEntityGoal;
+import it.mitl.maleficium.subroutine.PlayerUtils;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.core.particles.ParticleTypes;
@@ -39,6 +40,21 @@ public class VampireRequests {
         if (foodData.getFoodLevel() < 8) {
             player.displayClientMessage(Component.literal("§4You are too hungry to use this ability!"), true);
             return; // Player is too hungry
+        }
+
+        if (player.isFallFlying() || PlayerUtils.isPlayerFalling(player) || player.isInWater() || player.isInLava() || player.isPassenger() || player.isVehicle()
+                || player.isSleeping() || player.isSpectator() || player.isOnFire() || player.isInPowderSnow || PlayerUtils.isPlayerOnSoulSand(player)) {
+            String message = "§4You can't use this ability while ";
+            if (PlayerUtils.isPlayerOnSoulSand(player)) message += "on soul sand!";
+            else if (player.isFallFlying() || PlayerUtils.isPlayerFalling(player)) message += "falling!";
+            else if (player.isInWater() || player.isInLava()) message += "in water or lava!";
+            else if (player.isPassenger() || player.isVehicle()) message += "riding an entity!";
+            else if (player.isSleeping()) message += "sleeping!";
+            else if (player.isSpectator()) message += "in spectator mode!";
+            else if (player.isOnFire()) message += "on fire!";
+            else if (player.isInPowderSnow) message += "in powder snow!";
+            player.displayClientMessage(Component.literal(message), true);
+            return;
         }
         // Get the block the player is looking at
         Vec3 eyePosition = player.getEyePosition();

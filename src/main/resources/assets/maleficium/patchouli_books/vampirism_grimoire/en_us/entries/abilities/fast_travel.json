@@ -11,6 +11,11 @@
       "type": "patchouli:text",
       "title": "Hunger Requirement",
       "text": "This ability requires you to have at least 4 full blood points which will be consumed when you use it. If you do not have enough blood points, the ability will not work."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Warning",
+      "text": "This ability cannot be used while falling, standing on soul sand, while on fire, while in water or lava, while sleeping, while in powdered snow, or while riding an entity."
     }
   ]
 }
