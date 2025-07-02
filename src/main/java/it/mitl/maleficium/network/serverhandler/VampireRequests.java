@@ -30,9 +30,35 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Collections;
 import java.util.UUID;
 
 public class VampireRequests {
+
+    public static void handleFeedBloodRequest(ServerPlayer player, UUID entityUUID) {
+        if (!"vampire".equals(VariableManager.getSpecies(player))) return; // Player isn't a vampire
+        // Check if entityUUID is a player
+        Entity entity = player.serverLevel().getEntity(entityUUID);
+
+        if (entity instanceof Player targetPlayer) {
+            if (targetPlayer.getEffect(ModEffects.VAMPIRE_BLOOD_EFFECT.get()) != null) {
+                player.displayClientMessage(Component.literal("§4This player already has vampire blood in their system!"), true);
+                return;
+            } else if ("vampire".equals(VariableManager.getSpecies(targetPlayer))) {
+                player.displayClientMessage(Component.literal("§4You can't feed your blood to another vampire!"), true);
+                return;
+            }
+
+            targetPlayer.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 2, true, false));
+
+            MobEffectInstance vampireBloodEffectInstance = new MobEffectInstance(ModEffects.VAMPIRE_BLOOD_EFFECT.get(), 18000, 0, false, false, true);
+            vampireBloodEffectInstance.setCurativeItems(Collections.emptyList());
+            targetPlayer.addEffect(vampireBloodEffectInstance);
+        } else {
+            player.displayClientMessage(Component.literal("§4You can only feed your blood to players!"), true);
+            return;
+        }
+    }
 
     public static void handleFastTravelRequest(ServerPlayer player) {
         // Teleport the player to the block they are looking at (within 100 blocks)

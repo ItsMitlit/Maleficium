@@ -1,11 +1,8 @@
 package it.mitl.maleficium.event;
 
 import it.mitl.maleficium.Maleficium;
-import it.mitl.maleficium.client.keybind.BloodSuckKeybind;
-import it.mitl.maleficium.client.keybind.CompulsionKeybind;
+import it.mitl.maleficium.client.keybind.*;
 import it.mitl.maleficium.client.ExperienceBarColourChanger;
-import it.mitl.maleficium.client.keybind.FastTravelKeybind;
-import it.mitl.maleficium.client.keybind.ToggleBuffKeybind;
 import it.mitl.maleficium.network.ModMessages;
 import it.mitl.maleficium.network.packet.*;
 import net.minecraft.client.Minecraft;
@@ -88,6 +85,14 @@ public class ClientEvents {
         }
         if (FastTravelKeybind.FAST_TRAVEL_KEY.consumeClick()) {
             ModMessages.sendToServer(new FastTravelC2SPacket());
+        }
+        if (FeedBloodKeybind.FEED_BLOOD_KEY.consumeClick()) {
+            HitResult hit = Minecraft.getInstance().hitResult;
+            if (hit != null && hit.getType() == HitResult.Type.ENTITY) {
+                Entity target = ((EntityHitResult) hit).getEntity();
+                ModMessages.sendToServer(new FeedBloodC2SPacket(target.getUUID()));
+            }
+
         }
     }
 }

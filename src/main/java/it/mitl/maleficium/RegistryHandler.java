@@ -56,6 +56,12 @@ public class RegistryHandler {
                 FastTravelC2SPacket::new,
                 FastTravelC2SPacket::handle
         );
+        ModMessages.addNetworkMessage(
+                FeedBloodC2SPacket.class,
+                FeedBloodC2SPacket::toBytes,
+                FeedBloodC2SPacket::new,
+                FeedBloodC2SPacket::handle
+        );
 
         MinecraftForge.EVENT_BUS.register(ModMessages.class);
         MinecraftForge.EVENT_BUS.addListener(ModCapabilities::registerCapabilities);

@@ -1,9 +1,12 @@
 package it.mitl.maleficium.event.species.human;
 
 import it.mitl.maleficium.config.MaleficiumCommonConfigs;
+import it.mitl.maleficium.effect.ModEffects;
 import it.mitl.maleficium.subroutine.VariableManager;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.monster.Witch;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -43,5 +46,26 @@ public class Human2VampireEvent {
 
             player.removeAllEffects();
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerVampireBloodDeath(LivingDeathEvent event) {
+        // Check if the entity is a player
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        // Check if the player has vampire blood in their system
+        if (player.getEffect(ModEffects.VAMPIRE_BLOOD_EFFECT.get()) == null) return;
+
+        // Turn the player into a vampire
+        MobEffectInstance effectInstance = new MobEffectInstance(ModEffects.VAMPIRIC_TRANSITION_EFFECT.get(), 12000, 0, false, false, true);
+        effectInstance.setCurativeItems(java.util.Collections.emptyList());
+        player.addEffect(effectInstance);
+
+        player.removeEffect(ModEffects.VAMPIRE_BLOOD_EFFECT.get());
+
+        event.setCanceled(true);
+        player.setHealth(20);
+
+        player.displayClientMessage(Component.literal("§4You have died with vampire blood in your system and become one!"), true);
     }
 }

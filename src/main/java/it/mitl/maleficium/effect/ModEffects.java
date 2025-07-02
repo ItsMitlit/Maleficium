@@ -14,6 +14,9 @@ public class ModEffects {
 
     public static final RegistryObject<MobEffect> VAMPIRIC_TRANSITION_EFFECT = MOB_EFFECTS.register("vampiric_transition",
             () -> new VampiricTransitionEffect(MobEffectCategory.NEUTRAL, 0x808080));
+    public static final RegistryObject<MobEffect> VAMPIRE_BLOOD_EFFECT = MOB_EFFECTS.register("vampire_blood",
+            () -> new VampireBloodEffect(MobEffectCategory.NEUTRAL, 0x931c1c));
+
 
     public static void register(IEventBus eventBus) {
         MOB_EFFECTS.register(eventBus);
