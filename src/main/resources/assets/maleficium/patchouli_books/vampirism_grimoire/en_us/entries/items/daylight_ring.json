@@ -1,0 +1,15 @@
+{
+  "name": "Daylight Ring",
+  "icon": "maleficium:daylight_ring",
+  "category": "maleficium:items",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Daylight Rings are powerful items that allow vampires to walk in daylight without burning. They are crafted using a special recipe that requires rare materials. Once equipped, the ring will protect the wearer from sunlight damage, allowing them to explore the world freely during the day."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "maleficium:daylight_ring"
+    }
+  ]
+}
