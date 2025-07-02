@@ -2,9 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "DIN",
+    "DII",
     "I I",
-    "NIN"
+    "IIN"
   ],
   "key": {
     "N": {
