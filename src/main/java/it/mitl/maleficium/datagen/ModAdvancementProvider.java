@@ -3,6 +3,7 @@ package it.mitl.maleficium.datagen;
 import it.mitl.maleficium.Maleficium;
 import it.mitl.maleficium.item.ModItems;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.DisplayInfo;
 import net.minecraft.advancements.FrameType;
 import net.minecraft.advancements.critereon.ImpossibleTrigger;
@@ -27,6 +28,9 @@ public class ModAdvancementProvider implements ForgeAdvancementProvider.Advancem
                         true, true, false))
                 .addCriterion("on_join",
                         new ImpossibleTrigger.TriggerInstance())
+                .rewards(AdvancementRewards.Builder
+                        .loot(new ResourceLocation("maleficium", "grant_book_on_first_join"))
+                        .build())
                 .save(saver, new ResourceLocation(Maleficium.MOD_ID, "maleficium"), existingFileHelper);
 
         // Vampires

@@ -1,0 +1,15 @@
+{
+  "name": "Crafting Recipes",
+  "icon": "minecraft:crafting_table",
+  "category": "maleficium:recipes",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "This mod has three main grimoires that explain the various aspects of the mod. The first grimoire is the Crafting Grimoire, which contains recipes for crafting the grimoires themselves (this one). The second grimoire is the Vampirism Grimoire, which explains the vampire abilities and mechanics. The third grimoire is the Witchcraft Grimoire, which explains the witch abilities and mechanics."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "maleficium:vampirism_patchouli_book"
+    }
+  ]
+}

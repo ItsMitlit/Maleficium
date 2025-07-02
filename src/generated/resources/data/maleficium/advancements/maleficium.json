@@ -25,5 +25,10 @@
       "on_join"
     ]
   ],
+  "rewards": {
+    "loot": [
+      "maleficium:grant_book_on_first_join"
+    ]
+  },
   "sends_telemetry_event": true
 }

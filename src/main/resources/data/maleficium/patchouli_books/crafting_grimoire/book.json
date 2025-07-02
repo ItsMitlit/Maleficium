@@ -1,0 +1,10 @@
+{
+  "name": "Maleficium: Grimoire Crafting",
+  "landing_text": "Welcome to the Maleficium Crafting Grimoire. This book contains recipes for the grimoires (documentation books) that explain everything.",
+  "version": 1,
+  "creative_tab": "maleficium:maleficium_tab",
+  "use_resource_pack": true,
+  "book_texture": "patchouli:textures/gui/book_gray.png",
+  "creative_tab": "maleficium:maleficium_tab",
+  "model": "patchouli:book_gray"
+}
