@@ -1,0 +1,16 @@
+{
+  "name": "Feed Blood/Turn Players",
+  "icon": "maleficium:textures/mob_effect/vampire_blood.png",
+  "category": "maleficium:abilities",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Vampires have the ability to heal other players by feeding them some of their blood. This is done by using the feed blood keybind ($(k:maleficium.feed_blood)). Players who have vampire blood in their system need to wait before they can be fed again."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Turning Players",
+      "text": "A side effect of feeding blood to players is that they can be turned into vampires. This is done by killing them while they have vampire blood in their system. This will put the player into a state of $(l:maleficium:introduction/vampiric_transition)transition$(), where they must choose to become a vampire or die."
+    }
+  ]
+}

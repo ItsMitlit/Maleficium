@@ -66,6 +66,6 @@ public class Human2VampireEvent {
         event.setCanceled(true);
         player.setHealth(20);
 
-        player.displayClientMessage(Component.literal("§4You have died with vampire blood in your system and become one!"), true);
+        player.displayClientMessage(Component.literal("§4You died with vampire blood in your system! Now's the time for you to choose."), true);
     }
 }
