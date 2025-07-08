@@ -5,6 +5,7 @@ import it.mitl.maleficium.capability.blood.BloodCapability;
 import it.mitl.maleficium.effect.ModEffects;
 import it.mitl.maleficium.subroutine.FollowEntityGoal;
 import it.mitl.maleficium.subroutine.PlayerUtils;
+import it.mitl.maleficium.subroutine.SoundPlayer;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.core.particles.ParticleTypes;
@@ -243,6 +244,7 @@ public class VampireRequests {
             player.removeAllEffects();
             player.setHealth(30);
             player.getFoodData().setFoodLevel(20);
+            SoundPlayer.playBloodSuckSound(player);
         }
 
         // Player blood sucking logic
@@ -256,6 +258,7 @@ public class VampireRequests {
                 PlayerUtils.addHungerForVampire(2, player);
                 player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 2, true, false)); // 100 ticks = 5 seconds
                 player.displayClientMessage(Component.literal("§4You drained the player to death!"), true);
+                SoundPlayer.playBloodSuckSound(player);
 
                 // Achievements
                 Advancement firstBloodAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "first_blood"));
@@ -274,6 +277,7 @@ public class VampireRequests {
             playerTarget.hurt(player.damageSources().magic(), 1.0F);
             player.displayClientMessage(Component.literal("§4You have sucked blood from " + playerTarget.getName().getString() + "! (" + (int) playerTarget.getHealth() + "/" + (int) playerTarget.getMaxHealth() + ")"), true);
             PlayerUtils.addHungerForVampire(2, player);
+            SoundPlayer.playBloodSuckSound(player);
             return;
         }
 
@@ -292,6 +296,7 @@ public class VampireRequests {
                     Advancement enemyOfTheVillageAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "enemy_of_the_village"));
                     player.getAdvancements().award(aFulfillingMealAdvancement, "a_fulfilling_meal");
                     player.getAdvancements().award(enemyOfTheVillageAdvancement, "enemy_of_the_village");
+                    SoundPlayer.playBloodSuckSound(player);
 
                     // Anger nearby golems in a 25 block radius
                     AABB searchArea = new AABB(villager.blockPosition()).inflate(25);
@@ -311,6 +316,7 @@ public class VampireRequests {
                     Advancement aFulfillingMealAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "a_fulfilling_meal"));
                     player.getAdvancements().award(aFulfillingMealAdvancement, "a_fulfilling_meal");
                     PlayerUtils.addHungerForVampire(1, player);
+                    SoundPlayer.playBloodSuckSound(player);
                     return;
                 }
                 blood.setBlood(currentBlood - 1); // Decrease blood by 1 point
@@ -326,6 +332,7 @@ public class VampireRequests {
             // If the player doesn't have the firstBloodAdvancement advancement, grant it
             Advancement firstBloodAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Maleficium.MOD_ID, "first_blood"));
             player.getAdvancements().award(firstBloodAdvancement, "first_blood");
+            SoundPlayer.playBloodSuckSound(player);
 
         });
     }
