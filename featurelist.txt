@@ -1,0 +1,4 @@
+Implementations
+- transition: turn players into vampires
+Ideas:
+- better biting: chance for you to bite too hard and cause the mob to take damage and try to run away

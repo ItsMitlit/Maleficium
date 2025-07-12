@@ -4,6 +4,7 @@
   "key.maleficium.toggle_buff": "Toggle Movement Buffs",
   "key.maleficium.fast_travel": "Fast Travel",
   "key.maleficium.feed_blood": "Feed Blood",
+  "key.maleficium.give_up": "Give Up",
   "key.categories.maleficium": "Maleficium",
 
   "creativetab.maleficium_tab": "Maleficium",
@@ -12,6 +13,11 @@
 
   "effect.maleficium.vampiric_transition": "Vampiric Transition",
   "effect.maleficium.vampire_blood": "Vampire Blood",
+  "effect.maleficium.vampire_desiccation": "Vampire Desiccation",
+  "effect.maleficium.vampire_desiccated": "Desiccated Vampire",
 
-  "death.attack.transition_death": "%1$s died in transition."
+  "death.attack.transition_death": "%1$s died in transition.",
+  "death.attack.transition_death.player": "%1$s died in transition.",
+  "death.attack.gave_up": "%1$s gave up.",
+  "death.attack.gave_up.player": "%1$s gave up."
 }

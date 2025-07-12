@@ -2,6 +2,7 @@ package it.mitl.maleficium;
 
 import it.mitl.maleficium.capability.ModCapabilities;
 import it.mitl.maleficium.config.MaleficiumCommonConfigs;
+import it.mitl.maleficium.damagetypes.ModDamageTypes;
 import it.mitl.maleficium.effect.ModEffects;
 import it.mitl.maleficium.event.ClientEvents;
 import it.mitl.maleficium.event.ModEvents;
@@ -62,6 +63,12 @@ public class RegistryHandler {
                 FeedBloodC2SPacket::new,
                 FeedBloodC2SPacket::handle
         );
+        ModMessages.addNetworkMessage(
+                GiveUpC2SPacket.class,
+                GiveUpC2SPacket::toBytes,
+                GiveUpC2SPacket::new,
+                GiveUpC2SPacket::handle
+        );
 
         MinecraftForge.EVENT_BUS.register(ModMessages.class);
         MinecraftForge.EVENT_BUS.addListener(ModCapabilities::registerCapabilities);
@@ -69,6 +76,7 @@ public class RegistryHandler {
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModEffects.register(modEventBus);
+        // ModDamageTypes.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(ModEvents.class);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, MaleficiumCommonConfigs.SPEC, "maleficium-common.toml");

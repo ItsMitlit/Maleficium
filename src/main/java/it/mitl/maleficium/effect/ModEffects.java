@@ -16,6 +16,10 @@ public class ModEffects {
             () -> new VampiricTransitionEffect(MobEffectCategory.NEUTRAL, 0x808080));
     public static final RegistryObject<MobEffect> VAMPIRE_BLOOD_EFFECT = MOB_EFFECTS.register("vampire_blood",
             () -> new VampireBloodEffect(MobEffectCategory.NEUTRAL, 0x931c1c));
+    public static final RegistryObject<MobEffect> VAMPIRE_DESICCATION_EFFECT = MOB_EFFECTS.register("vampire_desiccation",
+            () -> new VampireDesiccationEffect(MobEffectCategory.HARMFUL, 0x000000));
+    public static final RegistryObject<MobEffect> VAMPIRE_DESICCATED_EFFECT = MOB_EFFECTS.register("vampire_desiccated",
+            () -> new VampireDesiccatedEffect(MobEffectCategory.HARMFUL, 0x000000));
 
 
     public static void register(IEventBus eventBus) {

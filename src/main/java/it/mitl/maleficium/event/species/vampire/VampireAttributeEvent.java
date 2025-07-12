@@ -1,6 +1,7 @@
 package it.mitl.maleficium.event.species.vampire;
 
 import it.mitl.maleficium.config.MaleficiumCommonConfigs;
+import it.mitl.maleficium.effect.ModEffects;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -14,6 +15,7 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -37,8 +39,10 @@ public class VampireAttributeEvent {
         boolean isVampire = "vampire".equals(VariableManager.getSpecies(player));
         boolean isHuman = "human".equals(VariableManager.getSpecies(player));
 
+        boolean isDesiccated = player.getEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get()) != null;
+
         // Strength Modifier
-        if (isVampire && player.getHealth() > 1.0F) { // Only apply strength if the player is a vampire and has more than 1/2 a heart of health
+        if (isVampire && player.getHealth() > 1.0F && !isDesiccated) { // Only apply strength if the player is a vampire and has more than 1/2 a heart of health
             if (player.getAttribute(Attributes.ATTACK_DAMAGE).getModifier(STRENGTH_MODIFIER_UUID) == null) {
                 player.getAttribute(Attributes.ATTACK_DAMAGE).addPermanentModifier(
                         new AttributeModifier(STRENGTH_MODIFIER_UUID, "Vampire strength boost", MaleficiumCommonConfigs.VAMPIRE_STRENGTH_MULTIPLIER.get(), AttributeModifier.Operation.MULTIPLY_TOTAL)
@@ -66,7 +70,7 @@ public class VampireAttributeEvent {
         }
 
         // Speed Modifier
-        if (isVampire && VariableManager.isBuffed(player) && player.getHealth() > 1.0F) { // Only apply speed boost if the player is a vampire, buffed, and has more than 1/2 a heart of health
+        if (isVampire && VariableManager.isBuffed(player) && player.getHealth() > 1.0F && !isDesiccated) { // Only apply speed boost if the player is a vampire, buffed, and has more than 1/2 a heart of health
             if (player.getAttribute(Attributes.MOVEMENT_SPEED).getModifier(SPEED_MODIFIER_UUID) == null) {
                 player.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(
                         new AttributeModifier(SPEED_MODIFIER_UUID, "Vampire speed boost", 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL)
@@ -77,18 +81,19 @@ public class VampireAttributeEvent {
         }
 
         // Night Vision
-        if (isVampire && player.getHealth() > 1.0F) {
+        if (isVampire && player.getHealth() > 1.0F && !isDesiccated) {
             applyHiddenEffectIfMissing(player, MobEffects.NIGHT_VISION, -1, 0, false, false, false);
         } else {
             player.removeEffect(MobEffects.NIGHT_VISION);
         }
 
         // Near death negative effects
-        if (isVampire && player.getHealth() <= 1.0F) {
-            applyEffectIfMissing(player, MobEffects.MOVEMENT_SLOWDOWN, 60, 1);
-            applyEffectIfMissing(player, MobEffects.WEAKNESS, 60, 1);
-            applyEffectIfMissing(player, MobEffects.DIG_SLOWDOWN, 60, 1);
-            applyEffectIfMissing(player, MobEffects.BLINDNESS, 60, 0);
+        if (isVampire && player.getHealth() <= 1.0F && player.getFoodData().getFoodLevel() == 0 && !isDesiccated) {
+//            applyDesiccationEffect(player, 1200);
+        } else if (isVampire && player.getFoodData().getFoodLevel() == 0 && isDesiccated) {
+            // blank
+        } else {
+            player.removeEffect(ModEffects.VAMPIRE_DESICCATION_EFFECT.get());
         }
     }
 
@@ -111,12 +116,15 @@ public class VampireAttributeEvent {
         }
     }
 
-    private static void applyEffectIfMissing(Player player, MobEffect effect, int duration, int amplifier) {
-        MobEffectInstance currentEffect = player.getEffect(effect);
-        if (currentEffect == null || currentEffect.getDuration() < duration - 1) {
-            player.addEffect(new MobEffectInstance(effect, duration, amplifier, true, false));
+    private static void applyDesiccationEffect(Player player, int duration) {
+        MobEffectInstance currentEffect = player.getEffect(ModEffects.VAMPIRE_DESICCATION_EFFECT.get());
+        if (currentEffect == null) {
+            MobEffectInstance giveEffect = new MobEffectInstance(ModEffects.VAMPIRE_DESICCATION_EFFECT.get(), duration, 0, false, false, true);
+            giveEffect.setCurativeItems(Collections.emptyList());
+            player.addEffect(giveEffect);
         }
     }
+
     private static void applyHiddenEffectIfMissing(Player player, MobEffect effect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean visible) {
         MobEffectInstance currentEffect = player.getEffect(effect);
         if (currentEffect == null || currentEffect.getDuration() < duration - 1) {

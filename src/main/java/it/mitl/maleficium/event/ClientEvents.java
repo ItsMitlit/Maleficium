@@ -43,6 +43,8 @@ public class ClientEvents {
         BloodSuckKeybind.register(event);
         ToggleBuffKeybind.register(event);
         FastTravelKeybind.register(event);
+        FeedBloodKeybind.register(event);
+        GiveUpKeybind.register(event);
     }
 
     private static long lastBloodSuckTime = 0;
@@ -92,7 +94,9 @@ public class ClientEvents {
                 Entity target = ((EntityHitResult) hit).getEntity();
                 ModMessages.sendToServer(new FeedBloodC2SPacket(target.getUUID()));
             }
-
+        }
+        if (GiveUpKeybind.GIVE_UP_KEY.consumeClick()) {
+            ModMessages.sendToServer(new GiveUpC2SPacket());
         }
     }
 }

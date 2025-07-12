@@ -61,4 +61,8 @@ public class PlayerUtils {
             }
         }
     }
+    public static boolean shouldBeDesiccated(ServerPlayer player) {
+        return VariableManager.getSpecies(player).equals("vampire")
+                && player.getFoodData().getFoodLevel() <= 1;
+    }
 }
