@@ -1,4 +1,4 @@
-package it.mitl.maleficium.client;
+package it.mitl.maleficium.client.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import it.mitl.maleficium.Maleficium;
@@ -6,7 +6,6 @@ import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;

@@ -2,7 +2,7 @@ package it.mitl.maleficium.event;
 
 import it.mitl.maleficium.Maleficium;
 import it.mitl.maleficium.client.keybind.*;
-import it.mitl.maleficium.client.ExperienceBarColourChanger;
+import it.mitl.maleficium.client.render.ExperienceBarColourChanger;
 import it.mitl.maleficium.network.ModMessages;
 import it.mitl.maleficium.network.packet.*;
 import net.minecraft.client.Minecraft;
