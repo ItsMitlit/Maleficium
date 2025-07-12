@@ -1,0 +1,36 @@
+{
+  "name": "Vampire Immortality",
+  "icon": "minecraft:totem_of_undying",
+  "category": "maleficium:introduction",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Vampires are known for their immortality, but this is not entirely true. While they may not be able to die from all normal means, they can still be killed by certain methods or left in a crippled state by $(l:maleficium:introduction/desiccation)desiccation$()."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "name": "Fire",
+      "item": {
+        "item": "minecraft:lava_bucket"
+      },
+      "text": "Regular vampires can be killed by burning alive via fire or lava."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "name": "Wooden Sword",
+      "item": {
+        "item": "minecraft:wooden_sword"
+      },
+      "text": "Regular vampires can be killed/finished off with a wooden sword (pretty much a stake)"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "name": "The Void",
+      "item": {
+        "item": "minecraft:end_portal_frame"
+      },
+      "text": "All vampires can be permanently killed by the void. What else would you expect?"
+    }
+  ]
+}

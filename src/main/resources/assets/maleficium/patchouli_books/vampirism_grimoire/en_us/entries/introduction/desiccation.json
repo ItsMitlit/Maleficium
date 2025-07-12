@@ -1,0 +1,27 @@
+{
+  "name": "Desiccation",
+  "icon": "maleficium:textures/mob_effect/vampire_desiccated.png",
+  "category": "maleficium:introduction",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Desiccation is a state that vampires enter when they are severely weakened and have lost their blood supply. It is a debilitating condition that can leave a vampire weakened and vulnerable."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Weaknesses",
+      "text": "During the desiccation process, the vampire will be severely weakened and unable to use their abilities. If a vampire is left in this state for too long, they become fully desiccated."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Desiccated State",
+      "text": "When a vampire is fully desiccated, they will be unable to move or use any abilities. The only way to recover from this state is to feed on blood."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Recovery",
+      "text": "To recover from desiccation, a vampire must feed on blood. This will restore their strength and allow them to regain their abilities."
+    }
+  ]
+}

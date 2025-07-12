@@ -79,8 +79,8 @@ public class VampireDeathEvent {
     public static boolean meetsVampireDeathConditions(LivingDamageEvent event) {
         DamageSource source = event.getSource();
         String msgId = source.getMsgId();
-        event.getEntity().sendSystemMessage(Component.literal("DamageSource msgId: " + msgId));
-        event.getEntity().sendSystemMessage(Component.literal("Damage Amount: " + event.getAmount()));
+//        event.getEntity().sendSystemMessage(Component.literal("DamageSource msgId: " + msgId));
+//        event.getEntity().sendSystemMessage(Component.literal("Damage Amount: " + event.getAmount()));
 
         return event.getSource().is(DamageTypes.IN_FIRE)
                 || event.getSource().is(DamageTypes.ON_FIRE)
