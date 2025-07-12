@@ -4,6 +4,9 @@ Welcome to Maleficium! This mod gives players the ability to become vampires wit
 ### Side Note
 This mod uses themes and ideas from various books, films, ideas, etc. I may add a mechanic or feature in a similar way to one story and another from a completely different one.
 
+## Supporting the project
+I know that it's a big ask, but if you like the mod and want to support it, please consider [supporting me on Patreon](https://patreon.com/mitlit). This will help me continue to work on this mod and other projects in the future. If you can't support me financially, please consider sharing the mod with your friends. Thanks for playing my mod!
+
 ## Features
 - This mod adds the ability to become a vampire `/setspecies vampire` with various different abilities. Other species such as **werewolves** and **witches** will be introduced in future updates.
 - From **v1.0.0-beta2** and up, you can become a vampire by being killed by a witch. (50% chance)
