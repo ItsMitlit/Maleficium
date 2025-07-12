@@ -6,5 +6,5 @@
   "use_resource_pack": true,
   "book_texture": "patchouli:textures/gui/book_gray.png",
   "creative_tab": "maleficium:maleficium_tab",
-  "model": "patchouli:book_gray"
+  "model": "maleficium:crafting_grimoire"
 }
