@@ -21,7 +21,8 @@ public class JoinEvents {
         MinecraftServer server = player.getServer();
 
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
-            Component message = Component.literal("[").withStyle(ChatFormatting.GRAY)
+            Component message = Component.literal("[")
+                    .withStyle(ChatFormatting.GRAY)
                     .append(Component.literal("Maleficium").withStyle(ChatFormatting.RED))
                     .append(Component.literal("] ").withStyle(ChatFormatting.GRAY))
                     .append(Component.literal("This mod is in beta! Report bugs at ").withStyle(ChatFormatting.RED))
@@ -33,6 +34,18 @@ public class JoinEvents {
                                             .withClickEvent(new ClickEvent(
                                                     ClickEvent.Action.OPEN_URL,
                                                     "https://github.com/ItsMitlit/Maleficium"
+                                            ))
+                                    )
+                    )
+                    .append(Component.literal(" or join our Discord: ").withStyle(ChatFormatting.RED))
+                    .append(
+                            Component.literal("https://discord.gg/NRm8maHVkk")
+                                    .withStyle(Style.EMPTY
+                                            .withColor(ChatFormatting.BLUE)
+                                            .withUnderlined(true)
+                                            .withClickEvent(new ClickEvent(
+                                                    ClickEvent.Action.OPEN_URL,
+                                                    "https://discord.gg/NRm8maHVkk"
                                             ))
                                     )
                     );
