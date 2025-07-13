@@ -8,6 +8,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Collections;
+
 public class PlayerUtils {
 
     public static boolean isPlayerOnSoulSand(ServerPlayer player) {
@@ -73,6 +75,7 @@ public class PlayerUtils {
         MobEffectInstance darkMagicEffect = player.getEffect(ModEffects.WITCH_DARK_MAGIC_EFFECT.get());
         if (darkMagicEffect == null) {
             darkMagicEffect = new MobEffectInstance(ModEffects.WITCH_DARK_MAGIC_EFFECT.get(), -1, 0, false, false, true);
+            darkMagicEffect.setCurativeItems(Collections.emptyList());
             player.addEffect(darkMagicEffect);
             return;
         }
@@ -82,6 +85,7 @@ public class PlayerUtils {
         if (newAmplifier != amplifier) {
             player.removeEffect(ModEffects.WITCH_DARK_MAGIC_EFFECT.get());
             MobEffectInstance newEffect = new MobEffectInstance(ModEffects.WITCH_DARK_MAGIC_EFFECT.get(), -1, newAmplifier, false, false, true);
+            newEffect.setCurativeItems(Collections.emptyList());
             player.addEffect(newEffect);
         }
     }
