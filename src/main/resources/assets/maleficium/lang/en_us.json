@@ -11,6 +11,14 @@
   "item.maleficium.daylight_ring": "Daylight Ring",
   "item.maleficium.white_oak_stake": "White Oak Stake",
 
+  "block.maleficium.white_oak_log": "White Oak Log",
+  "block.maleficium.white_oak_planks": "White Oak Planks",
+  "block.maleficium.white_oak_wood": "White Oak Wood",
+  "block.maleficium.stripped_white_oak_log": "Stripped White Oak Log",
+  "block.maleficium.stripped_white_oak_wood": "Stripped White Oak Wood",
+  "block.maleficium.white_oak_leaves": "White Oak Leaves",
+  "block.maleficium.white_oak_sapling": "White Oak Sapling",
+
   "effect.maleficium.vampiric_transition": "Vampiric Transition",
   "effect.maleficium.vampire_blood": "Vampire Blood",
   "effect.maleficium.vampire_desiccation": "Vampire Desiccation",

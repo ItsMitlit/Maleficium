@@ -1,0 +1,4 @@
+// 1.20.1	2025-07-13T16:18:25.9914788	Registries
+e2009bf7fb86f5edbdb7213b31e81dd73074624f data/maleficium/forge/biome_modifier/add_tree_white_oak.json
+543b8c4cab3055320f0809a6e8579b45c23856e6 data/maleficium/worldgen/configured_feature/white_oak.json
+16dbbf4468f273c8313c5ec3a40a018225af58fc data/maleficium/worldgen/placed_feature/white_oak_placed.json
