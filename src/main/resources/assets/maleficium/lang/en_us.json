@@ -23,6 +23,7 @@
   "effect.maleficium.vampire_blood": "Vampire Blood",
   "effect.maleficium.vampire_desiccation": "Vampire Desiccation",
   "effect.maleficium.vampire_desiccated": "Desiccated Vampire",
+  "effect.maleficium.dark_magic": "Dark Magic",
 
   "death.attack.transition_death": "%1$s died in transition.",
   "death.attack.transition_death.player": "%1$s died in transition.",

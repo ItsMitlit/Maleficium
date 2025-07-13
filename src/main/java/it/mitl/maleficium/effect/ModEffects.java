@@ -1,6 +1,11 @@
 package it.mitl.maleficium.effect;
 
 import it.mitl.maleficium.Maleficium;
+import it.mitl.maleficium.effect.vampire.VampireBloodEffect;
+import it.mitl.maleficium.effect.vampire.VampireDesiccatedEffect;
+import it.mitl.maleficium.effect.vampire.VampireDesiccationEffect;
+import it.mitl.maleficium.effect.vampire.VampiricTransitionEffect;
+import it.mitl.maleficium.effect.witch.WitchDarkMagicEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -20,6 +25,8 @@ public class ModEffects {
             () -> new VampireDesiccationEffect(MobEffectCategory.HARMFUL, 0x000000));
     public static final RegistryObject<MobEffect> VAMPIRE_DESICCATED_EFFECT = MOB_EFFECTS.register("vampire_desiccated",
             () -> new VampireDesiccatedEffect(MobEffectCategory.HARMFUL, 0x000000));
+    public static final RegistryObject<MobEffect> WITCH_DARK_MAGIC_EFFECT = MOB_EFFECTS.register("dark_magic",
+            () -> new WitchDarkMagicEffect(MobEffectCategory.HARMFUL, 0x371c4b));
 
 
     public static void register(IEventBus eventBus) {
