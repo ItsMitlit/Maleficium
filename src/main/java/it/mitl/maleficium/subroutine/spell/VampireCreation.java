@@ -44,7 +44,7 @@ public class VampireCreation {
                 if (logCount < 3 || leafCount < 3) return;
                 // Conditions met
                 player.displayClientMessage(Component.literal("§aYou have activated the vampire creation ritual."), true);
-                PlayerUtils.addDarkMagic(player, 2);
+                PlayerUtils.setDarkMagic(player, 1, 1);
             }
         }
     }

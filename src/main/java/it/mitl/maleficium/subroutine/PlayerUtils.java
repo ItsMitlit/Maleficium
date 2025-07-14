@@ -70,23 +70,59 @@ public class PlayerUtils {
                 && player.getFoodData().getFoodLevel() <= 1;
     }
 
-    public static void addDarkMagic(ServerPlayer player, int amount) {
+    /**
+     * Sets the dark magic effect on the given player.
+     *
+     * @param player the player to apply the effect to
+     * @param amount the amount to set, add, or subtract from the effect amplifier
+     * @param method the method to use:
+     *               0 - set amplifier to amount
+     *               1 - add amount to current amplifier
+     *               2 - subtract amount from current amplifier
+     *               other - keep current amplifier
+     */
+    public static void setDarkMagic(ServerPlayer player, int amount, int method) {
         if (player == null || player.level().isClientSide()) return;
         MobEffectInstance darkMagicEffect = player.getEffect(ModEffects.WITCH_DARK_MAGIC_EFFECT.get());
-        if (darkMagicEffect == null) {
-            darkMagicEffect = new MobEffectInstance(ModEffects.WITCH_DARK_MAGIC_EFFECT.get(), -1, 0, false, false, true);
-            darkMagicEffect.setCurativeItems(Collections.emptyList());
-            player.addEffect(darkMagicEffect);
+        int amplifier = darkMagicEffect != null ? darkMagicEffect.getAmplifier() : -1;
+        int newAmplifier = amplifier;
+
+        switch (method) {
+            case 0:
+                newAmplifier = Math.max(-1, Math.min(amount, 19));
+                break;
+            case 1:
+                newAmplifier = Math.max(-1, Math.min(amplifier + amount, 19));
+                break;
+            case 2:
+                newAmplifier = Math.max(-1, Math.min(amplifier - amount, 19));
+                break;
+            default:
+                newAmplifier = amplifier;
+                break;
+        }
+
+        if (newAmplifier == -1) {
+            player.removeEffect(ModEffects.WITCH_DARK_MAGIC_EFFECT.get());
             return;
         }
-        int amplifier = darkMagicEffect.getAmplifier();
-        int newAmplifier = Math.min(amplifier + amount, 19);
 
-        if (newAmplifier != amplifier) {
+        if (darkMagicEffect == null || newAmplifier != amplifier) {
             player.removeEffect(ModEffects.WITCH_DARK_MAGIC_EFFECT.get());
             MobEffectInstance newEffect = new MobEffectInstance(ModEffects.WITCH_DARK_MAGIC_EFFECT.get(), -1, newAmplifier, false, false, true);
             newEffect.setCurativeItems(Collections.emptyList());
             player.addEffect(newEffect);
+        }
+    }
+
+    public static int getDarkMagic(ServerPlayer player) {
+        if (player == null) return -2;
+        MobEffectInstance darkMagicEffect = player.getEffect(ModEffects.WITCH_DARK_MAGIC_EFFECT.get());
+        if (darkMagicEffect != null) {
+            int amplifier = darkMagicEffect.getAmplifier();
+            return amplifier;
+        } else {
+            return -1;
         }
     }
 }

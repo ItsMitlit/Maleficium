@@ -18,4 +18,17 @@ public class SoundPlayer {
                 1.0F
         );
     }
+
+    public static void playXpSound(Player player) {
+        player.level().playSound(
+                null,
+                player.getX(),
+                player.getY(),
+                player.getZ(),
+                SoundEvents.EXPERIENCE_ORB_PICKUP,
+                SoundSource.PLAYERS,
+                1.0F,
+                1.0F
+        );
+    }
 }

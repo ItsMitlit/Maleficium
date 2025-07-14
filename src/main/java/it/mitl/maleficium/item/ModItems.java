@@ -2,6 +2,7 @@ package it.mitl.maleficium.item;
 
 import it.mitl.maleficium.RegistryHandler;
 import it.mitl.maleficium.item.custom.DaylightRingItem;
+import it.mitl.maleficium.item.custom.MoraMiseriumItem;
 import it.mitl.maleficium.item.custom.WhiteOakStakeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -32,6 +33,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> WHITE_OAK_STAKE = ITEMS.register("white_oak_stake",
             () -> new WhiteOakStakeItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MORA_MISERIUM = ITEMS.register("mora_miserium",
+            MoraMiseriumItem::new);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

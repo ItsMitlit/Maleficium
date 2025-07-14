@@ -21,6 +21,7 @@ public class ModCreativeModeTabs {
                     .displayItems((displayParameters, output) -> {
                         output.accept(ModItems.DAYLIGHT_RING.get());
                         output.accept(ModItems.WHITE_OAK_STAKE.get());
+                        output.accept(ModItems.MORA_MISERIUM.get());
 
                         output.accept(ModBlocks.WHITE_OAK_LOG.get());
                         output.accept(ModBlocks.WHITE_OAK_WOOD.get());
