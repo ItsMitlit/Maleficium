@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "maleficium:block/white_oak_log_top",
+    "side": "maleficium:block/white_oak_log"
+  }
+}

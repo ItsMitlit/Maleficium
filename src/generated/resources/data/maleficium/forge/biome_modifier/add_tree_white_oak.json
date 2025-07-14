@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_forest",
+  "features": "maleficium:white_oak_placed",
+  "step": "vegetal_decoration"
+}

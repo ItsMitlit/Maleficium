@@ -1,5 +1,6 @@
-package it.mitl.maleficium.effect;
+package it.mitl.maleficium.effect.vampire;
 
+import it.mitl.maleficium.effect.ModEffects;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;

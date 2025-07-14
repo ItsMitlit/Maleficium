@@ -1,5 +1,6 @@
 package it.mitl.maleficium;
 
+import it.mitl.maleficium.block.ModBlocks;
 import it.mitl.maleficium.capability.ModCapabilities;
 import it.mitl.maleficium.config.MaleficiumCommonConfigs;
 import it.mitl.maleficium.damagetypes.ModDamageTypes;
@@ -75,6 +76,7 @@ public class RegistryHandler {
         ClientEvents.register();
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
         ModEffects.register(modEventBus);
         // ModDamageTypes.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(ModEvents.class);

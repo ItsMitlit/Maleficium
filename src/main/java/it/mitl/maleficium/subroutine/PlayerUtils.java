@@ -1,10 +1,14 @@
 package it.mitl.maleficium.subroutine;
 
+import it.mitl.maleficium.effect.ModEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.Collections;
 
 public class PlayerUtils {
 
@@ -64,5 +68,25 @@ public class PlayerUtils {
     public static boolean shouldBeDesiccated(ServerPlayer player) {
         return VariableManager.getSpecies(player).equals("vampire")
                 && player.getFoodData().getFoodLevel() <= 1;
+    }
+
+    public static void addDarkMagic(ServerPlayer player, int amount) {
+        if (player == null || player.level().isClientSide()) return;
+        MobEffectInstance darkMagicEffect = player.getEffect(ModEffects.WITCH_DARK_MAGIC_EFFECT.get());
+        if (darkMagicEffect == null) {
+            darkMagicEffect = new MobEffectInstance(ModEffects.WITCH_DARK_MAGIC_EFFECT.get(), -1, 0, false, false, true);
+            darkMagicEffect.setCurativeItems(Collections.emptyList());
+            player.addEffect(darkMagicEffect);
+            return;
+        }
+        int amplifier = darkMagicEffect.getAmplifier();
+        int newAmplifier = Math.min(amplifier + amount, 19);
+
+        if (newAmplifier != amplifier) {
+            player.removeEffect(ModEffects.WITCH_DARK_MAGIC_EFFECT.get());
+            MobEffectInstance newEffect = new MobEffectInstance(ModEffects.WITCH_DARK_MAGIC_EFFECT.get(), -1, newAmplifier, false, false, true);
+            newEffect.setCurativeItems(Collections.emptyList());
+            player.addEffect(newEffect);
+        }
     }
 }
