@@ -82,9 +82,12 @@ public class VampireAttributeEvent {
 
         // Night Vision
         if (isVampire && player.getHealth() > 1.0F && !isDesiccated) {
-            applyHiddenEffectIfMissing(player, MobEffects.NIGHT_VISION, -1, 0, false, false, false);
-        } else {
-            player.removeEffect(MobEffects.NIGHT_VISION);
+            applyHiddenEffectIfMissing(player, MobEffects.NIGHT_VISION, -1, 106, false, false, false);
+        } else if (!isVampire && player.getEffect(MobEffects.NIGHT_VISION) != null) {
+            MobEffectInstance instance = player.getEffect(MobEffects.NIGHT_VISION);
+            if (instance.getAmplifier() == 106 && instance.getDuration() == -1) {
+                player.removeEffect(MobEffects.NIGHT_VISION);
+            }
         }
 
         // Near death negative effects
