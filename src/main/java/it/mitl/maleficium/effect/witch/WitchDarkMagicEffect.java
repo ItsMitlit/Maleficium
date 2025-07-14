@@ -11,7 +11,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import java.util.UUID;
 
 public class WitchDarkMagicEffect extends MobEffect {
-    private UUID EFFECT_UUID = UUID.fromString("bc5bf37f-cde1-42e2-afcc-ceff601baf1e");
+    private static final UUID EFFECT_UUID = UUID.fromString("bc5bf37f-cde1-42e2-afcc-ceff601baf1e");
 
     public WitchDarkMagicEffect(MobEffectCategory pCategory, int pColor) {
         super (pCategory, pColor);
