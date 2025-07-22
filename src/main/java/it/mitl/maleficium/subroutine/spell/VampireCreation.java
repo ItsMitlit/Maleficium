@@ -45,6 +45,7 @@ public class VampireCreation {
                 // Conditions met
                 player.displayClientMessage(Component.literal("§aYou have activated the vampire creation ritual."), true);
                 PlayerUtils.setDarkMagic(player, 1, 1);
+                VariableManager.setKarma(player, VariableManager.getKarma(player) - 50); // decrease karma by 50
             }
         }
     }

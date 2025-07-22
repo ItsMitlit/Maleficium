@@ -88,4 +88,18 @@ public class VariableManager {
 
         return (entity.getCapability(ModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ModVariables.PlayerVariables())).extraHunger;
     }
+
+    public static int getKarma(Entity entity) {
+        if (!(entity instanceof Player)) return 0;
+        return (entity.getCapability(ModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ModVariables.PlayerVariables())).karma;
+    }
+
+    public static void setKarma(Entity entity, int karma) {
+        if (!(entity instanceof Player player)) return;
+
+        entity.getCapability(ModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
+            capability.karma = karma;
+            capability.syncPlayerVariables(entity);
+        });
+    }
 }
