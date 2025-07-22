@@ -85,7 +85,7 @@ public class MoraMiseriumItem extends Item {
         } else if (player.isCrouching() && tag.contains(OWNER_TAG) && tag.getString(OWNER_TAG).equals(player.getName().getString()) && PlayerUtils.getDarkMagic((ServerPlayer) player) == -1) {
             player.displayClientMessage(Component.literal("§cYou have no §5dark magic§c to store in the Mora Miserium."), true);
             SoundPlayer.playXpSound(player);
-        } else {
+        } else if (!tag.contains(OWNER_TAG) || !tag.getString(OWNER_TAG).equals(player.getName().getString())) {
             player.displayClientMessage(Component.literal("§cThis Mora Miserium is not bound to you."), true);
         }
         return InteractionResultHolder.pass(stack);
