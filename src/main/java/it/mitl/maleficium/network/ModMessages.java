@@ -2,11 +2,13 @@ package it.mitl.maleficium.network;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.AbstractMap;
@@ -79,9 +81,23 @@ public class ModMessages {
      * Sends a packet/message to the server.
      *
      * @param message The message to send.
-     * @param <T> The message type.
+     * @param <T>     The message type.
      */
     public static <T> void sendToServer(T message) {
         PACKET_HANDLER.sendToServer(message);
+    }
+
+    /**
+     * Sends a packet/message to a client.
+     *
+     * @param message The message to send.
+     * @param player  The player to send the message to.
+     * @param <T>     The message type.
+     */
+    public static <T> void sendToClient(T message, ServerPlayer player) {
+        PACKET_HANDLER.send(
+                PacketDistributor.PLAYER.with(() -> player),
+                message
+        );
     }
 }
