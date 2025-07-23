@@ -30,5 +30,7 @@
   "death.attack.transition_death": "%1$s died in transition.",
   "death.attack.transition_death.player": "%1$s died in transition.",
   "death.attack.gave_up": "%1$s gave up.",
-  "death.attack.gave_up.player": "%1$s gave up."
+  "death.attack.gave_up.player": "%1$s gave up.",
+  "death.attack.white_oak_stake_death": "%1$s was staked with a white oak stake.",
+  "death.attack.white_oak_stake_death.player": "%1$s was staked by %2$s with a white oak stake."
 }

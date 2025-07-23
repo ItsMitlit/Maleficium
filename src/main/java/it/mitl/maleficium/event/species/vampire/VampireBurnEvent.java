@@ -2,6 +2,7 @@ package it.mitl.maleficium.event.species.vampire;
 
 import it.mitl.maleficium.RegistryHandler;
 import it.mitl.maleficium.item.ModItems;
+import it.mitl.maleficium.subroutine.SpeciesCheck;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +21,7 @@ public class VampireBurnEvent {
         if (player == null) return;
 
         // Check if the player is a vampire
-        if (!"vampire".equals(VariableManager.getSpecies(player))) return;
+        if (!SpeciesCheck.isOnlyVampire(player)) return;
 
         // If the player is in creative or spectator mode, do not apply the effect
         if (player.isCreative() || player.isSpectator()) return;

@@ -6,6 +6,7 @@ import it.mitl.maleficium.item.custom.MoraMiseriumItem;
 import it.mitl.maleficium.item.custom.WhiteOakStakeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tiers;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -32,7 +33,7 @@ public class ModItems {
     });
 
     public static final RegistryObject<Item> WHITE_OAK_STAKE = ITEMS.register("white_oak_stake",
-            () -> new WhiteOakStakeItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+            () -> new WhiteOakStakeItem(Tiers.DIAMOND, 3, -2.4F, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     public static final RegistryObject<Item> MORA_MISERIUM = ITEMS.register("mora_miserium",
             MoraMiseriumItem::new);
 

@@ -3,10 +3,7 @@ package it.mitl.maleficium.network.serverhandler;
 import it.mitl.maleficium.Maleficium;
 import it.mitl.maleficium.capability.blood.BloodCapability;
 import it.mitl.maleficium.effect.ModEffects;
-import it.mitl.maleficium.subroutine.FollowEntityGoal;
-import it.mitl.maleficium.subroutine.PlayerUtils;
-import it.mitl.maleficium.subroutine.SoundPlayer;
-import it.mitl.maleficium.subroutine.VariableManager;
+import it.mitl.maleficium.subroutine.*;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -44,13 +41,12 @@ public class VampireRequests {
 
     public static void handleGiveUpRequest(ServerPlayer player) {
         // Ignore if the player isn't a vampire or werewolf
-        if (!"vampire".equals(VariableManager.getSpecies(player))) return;
+        if (!SpeciesCheck.isAnyVampire(player)) return;
 
         // Check if the player is eligible
         if (player.getEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get()) != null) {
             LevelAccessor world = player.level();
 
-            // player.hurt(gaveUp, 3.4028235E38F);
             player.hurt(new DamageSource(world.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("maleficium:gave_up")))), 3.4028235E38F);
         }
     }
@@ -67,17 +63,17 @@ public class VampireRequests {
             return;
         }
 
-        if (!"vampire".equals(VariableManager.getSpecies(player)) && targetPlayer.getEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get()) != null && player.getHealth() > 1.0F) {
+        if (!SpeciesCheck.isAnyVampire(player) && targetPlayer.getEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get()) != null && player.getHealth() > 1.0F) {
             targetPlayer.getFoodData().setFoodLevel(6);
             targetPlayer.removeEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get());
             player.hurt(player.damageSources().magic(), 1.0F);
             return;
-        } else if (!"vampire".equals(VariableManager.getSpecies(player)) && targetPlayer.getEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get()) != null && player.getHealth() <= 1.0F) {
+        } else if (!SpeciesCheck.isAnyVampire(player) && targetPlayer.getEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get()) != null && player.getHealth() <= 1.0F) {
             player.displayClientMessage(Component.literal("§4You are too weak to feed your blood to this player!"), true);
             return;
         }
 
-        if (!"vampire".equals(VariableManager.getSpecies(player))) return; // Player isn't a vampire
+        if (!SpeciesCheck.isAnyVampire(player)) return; // Player isn't a vampire
 
         if (player.getEffect(ModEffects.VAMPIRE_DESICCATION_EFFECT.get()) != null || player.getEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get()) != null) {
             player.displayClientMessage(Component.literal("§4You can't feed players while desiccated!"), true);
@@ -87,7 +83,7 @@ public class VampireRequests {
         if (targetPlayer.getEffect(ModEffects.VAMPIRE_BLOOD_EFFECT.get()) != null) {
             player.displayClientMessage(Component.literal("§4This player already has vampire blood in their system!"), true);
             return;
-        } else if ("vampire".equals(VariableManager.getSpecies(targetPlayer))) {
+        } else if (SpeciesCheck.isAnyVampire(targetPlayer)) {
             player.displayClientMessage(Component.literal("§4You can't feed your blood to another vampire!"), true);
             return;
         }
@@ -102,9 +98,11 @@ public class VampireRequests {
 
     public static void handleFastTravelRequest(ServerPlayer player) {
         // Teleport the player to the block they are looking at (within 100 blocks)
-        if (!"vampire".equals(VariableManager.getSpecies(player))) {
+        if (!SpeciesCheck.isAnyVampire(player)) {
             return; // Player isn't a vampire
         }
+
+        boolean isOriginalVampire = SpeciesCheck.isOriginalVampire(player);
 
         if (player.getEffect(ModEffects.VAMPIRE_DESICCATION_EFFECT.get()) != null || player.getEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get()) != null) {
             player.displayClientMessage(Component.literal("§4You can't fast travel while desiccated!"), true);
@@ -112,8 +110,10 @@ public class VampireRequests {
 
         FoodData foodData = player.getFoodData();
         if (foodData.getFoodLevel() < 8) {
-            player.displayClientMessage(Component.literal("§4You are too hungry to use this ability!"), true);
-            return; // Player is too hungry
+            if (!isOriginalVampire) {
+                player.displayClientMessage(Component.literal("§4You are too hungry to use this ability!"), true);
+                return; // Player is too hungry
+            }
         }
 
         if (player.isFallFlying() || PlayerUtils.isPlayerFalling(player) || player.isInWater() || player.isInLava() || player.isPassenger() || player.isVehicle()
@@ -168,7 +168,8 @@ public class VampireRequests {
             // Teleport the player
             // player.displayClientMessage(Component.literal("New Coordinates: " + targetPosition), true);
             player.teleportTo(targetPosition.x(), targetPosition.y(), targetPosition.z());
-            foodData.setFoodLevel(foodData.getFoodLevel() - 8); // Reduce hunger by 8 points (4 blood)
+            int foodReductionValue = isOriginalVampire ? 4 : 8; // Original vampires use 4, others use 8
+            foodData.setFoodLevel(foodData.getFoodLevel() - foodReductionValue); // Reduce hunger by 8 points (4 blood)
         }
     }
 
@@ -177,9 +178,11 @@ public class VampireRequests {
         Entity entity = ((ServerLevel) world).getEntity(villagerUUID);
 
         if (entity instanceof Villager villager) {
-            if (!"vampire".equals(VariableManager.getSpecies(player))) {
+            if (!SpeciesCheck.isAnyVampire(player)) {
                 return; // Player isn't a vampire
             }
+
+            boolean isOriginalVampire = SpeciesCheck.isOriginalVampire(player);
 
             if (player.getEffect(ModEffects.VAMPIRE_DESICCATION_EFFECT.get()) != null || player.getEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get()) != null) {
                 player.displayClientMessage(Component.literal("§4You can't compel mobs while desiccated!"), true);
@@ -187,8 +190,11 @@ public class VampireRequests {
 
             FoodData foodData = player.getFoodData();
             if (foodData.getFoodLevel() < 4) {
-                player.displayClientMessage(Component.literal("§4You are too hungry to compel this villager!"), true);
-                return;
+
+                if (!isOriginalVampire) {
+                    player.displayClientMessage(Component.literal("§4You are too hungry to compel this villager!"), true);
+                    return;
+                }
             }
 
             boolean discountApplied = false;
@@ -210,7 +216,8 @@ public class VampireRequests {
 
             // Send a message to the player if a discount was applied
             if (discountApplied) {
-                foodData.setFoodLevel(foodData.getFoodLevel() - 4); // Reduce hunger by 4 points (2 blood)
+                int foodReductionValue = isOriginalVampire ? 2 : 4; // Original vampires use 2, others use 4
+                foodData.setFoodLevel(foodData.getFoodLevel() - foodReductionValue); // Reduce hunger by 4 points (2 blood)
                 player.displayClientMessage(Component.literal("§4You have compelled the villager!"), true);
             } else {
                 player.displayClientMessage(Component.literal("§4You have already compelled this villager!"), true);
@@ -226,15 +233,22 @@ public class VampireRequests {
             player.displayClientMessage(Component.literal("§4You can't compel mobs while desiccated!"), true);
         }
 
+        boolean isOriginalVampire = SpeciesCheck.isOriginalVampire(player);
+
+        int foodReductionValue = isOriginalVampire ? 2 : 4; // Original vampires use 2, others use 4
+
         FoodData foodData = player.getFoodData();
-        if (foodData.getFoodLevel() < 6) {
-            player.displayClientMessage(Component.literal("§4You are too hungry to compel this mob!"), true);
-            return;
+        if (foodData.getFoodLevel() < 4) {
+            if (!isOriginalVampire) {
+                player.displayClientMessage(Component.literal("§4You are too hungry to compel this mob!"), true);
+                return;
+            }
         }
 
         if (entity instanceof Mob mob) {
             long gameTime = level.getGameTime();
-            long followUntil = mob.level().getGameTime() + (20 * 15); // 15 seconds
+            int followSeconds = isOriginalVampire ? 30 : 15; // 30 seconds if original vampire, else 15 seconds
+            long followUntil = mob.level().getGameTime() + (20 * followSeconds); // 30 seconds if original vampire, else 15 seconds
             if (mob.getPersistentData().contains("FollowUntil")) {
                 long existingFollowUntil = mob.getPersistentData().getLong("FollowUntil");
                 if (existingFollowUntil > gameTime) {
@@ -245,7 +259,10 @@ public class VampireRequests {
             mob.getPersistentData().putLong("FollowUntil", followUntil);
             FollowEntityGoal followGoal = new FollowEntityGoal(mob, player, 1.2D, 2.0F);
             mob.goalSelector.addGoal(1, followGoal);
-            player.displayClientMessage(Component.literal("§4You have compelled this mob to follow you! (15 sec)"), true);
+            player.displayClientMessage(Component.literal("§4You have compelled this mob to follow you! (" + followSeconds + " secs)"), true);
+
+            player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() - foodReductionValue);
+
 //            if (!CompelManager.compelGoals.containsKey(entityUUID)) {
 //
 //
@@ -260,7 +277,7 @@ public class VampireRequests {
         Level world = player.level();
         Entity entity = ((ServerLevel) world).getEntity(entityUUID);
 
-        if (!"vampire".equals(VariableManager.getSpecies(player)) && player.getEffect(ModEffects.VAMPIRIC_TRANSITION_EFFECT.get()) == null) return;
+        if (!SpeciesCheck.isAnyVampire(player) && player.getEffect(ModEffects.VAMPIRIC_TRANSITION_EFFECT.get()) == null) return;
 
 //        if (player.getEffect(ModEffects.VAMPIRE_DESICCATION_EFFECT.get()) != null || player.getEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get()) != null) {
 //            player.displayClientMessage(Component.literal("§4You can't suck blood while desiccated!"), true);
@@ -274,7 +291,7 @@ public class VampireRequests {
         }
 
         // Don't let the player suck blood from other vampires
-        if (entity instanceof Player entityPlayer && ("vampire".equals(VariableManager.getSpecies(entityPlayer)))) {
+        if (entity instanceof Player entityPlayer && (SpeciesCheck.isAnyVampire(entityPlayer))) {
             player.displayClientMessage(Component.literal("§4You can't suck blood from another vampire!"), true);
             return;
         }
@@ -413,7 +430,7 @@ public class VampireRequests {
     public static void handleBuffToggleRequest(ServerPlayer player) {
 
         // Ignore if the player isn't a vampire or werewolf
-        if (!"vampire".equals(VariableManager.getSpecies(player)) && !"werewolf".equals(VariableManager.getSpecies(player))) return;
+        if (!SpeciesCheck.isAnyVampire(player) && !SpeciesCheck.isWerewolf(player)) return;
 
         // Toggle the buffed state
         VariableManager.setBuffed(!VariableManager.isBuffed(player), player);

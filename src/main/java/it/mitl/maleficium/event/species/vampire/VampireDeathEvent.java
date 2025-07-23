@@ -2,6 +2,7 @@ package it.mitl.maleficium.event.species.vampire;
 
 import it.mitl.maleficium.config.MaleficiumCommonConfigs;
 import it.mitl.maleficium.effect.ModEffects;
+import it.mitl.maleficium.subroutine.SpeciesCheck;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -82,21 +83,26 @@ public class VampireDeathEvent {
 //        event.getEntity().sendSystemMessage(Component.literal("DamageSource msgId: " + msgId));
 //        event.getEntity().sendSystemMessage(Component.literal("Damage Amount: " + event.getAmount()));
 
+        Player player = (Player) event.getEntity();
+        if (SpeciesCheck.isOriginalVampire(player)) {
+            return msgId.equals("white_oak_stake_death") || msgId.equals("gave_up");
+        }
         return event.getSource().is(DamageTypes.IN_FIRE)
                 || event.getSource().is(DamageTypes.ON_FIRE)
                 || event.getSource().is(DamageTypes.LAVA)
                 || event.getSource().is(DamageTypes.FELL_OUT_OF_WORLD)
                 || (event.getSource().getDirectEntity() instanceof LivingEntity attacker
                 && attacker.getMainHandItem().getItem() == Items.WOODEN_SWORD)
-                || msgId.equals("gave_up");
+                || msgId.equals("gave_up") || msgId.equals("white_oak_stake_death");
     }
 
     @SubscribeEvent
     public static void onVampireDeath(LivingDeathEvent event) {
-        if ((event.getEntity() instanceof Player player) && "vampire".equals(VariableManager.getSpecies(event.getEntity()))) {
-            if ("original".equals(VariableManager.getFaction(player))) {
+        if ((event.getEntity() instanceof Player player) && SpeciesCheck.isAnyVampire(player)) {
+            if (SpeciesCheck.isOriginalVampire(player)) {
                 MinecraftServer server = player.getServer();
                 if (server != null) {
+                    VariableManager.setSpecies("human", player);
                     server.getPlayerList().getPlayers().forEach(p ->
                             p.sendSystemMessage(Component.literal("§4An Original has been slain! So too die all of its progeny."))
                     );

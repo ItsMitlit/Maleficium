@@ -1,5 +1,6 @@
 package it.mitl.maleficium.event.species.vampire;
 
+import it.mitl.maleficium.subroutine.SpeciesCheck;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobType;
@@ -39,7 +40,7 @@ public class VampireUndeadIgnoreEvent {
         if (!(event.getNewTarget() instanceof Player player)) return;
 
         // Check if the player is a vampire
-        if ("vampire".equals(VariableManager.getSpecies(player))) {
+        if (SpeciesCheck.isAnyVampire(player)) {
             // Check if the mob was provoked (attacked)
             UUID provokedPlayer = provokedMobs.get(mob.getUUID());
             if (provokedPlayer != null && provokedPlayer.equals(player.getUUID())) return;
@@ -61,7 +62,7 @@ public class VampireUndeadIgnoreEvent {
         if (!(event.getSource().getEntity() instanceof Player player)) return;
 
         // Check if the player is a vampire
-        if ("vampire".equals(VariableManager.getSpecies(player))) {
+        if (SpeciesCheck.isAnyVampire(player)) {
             // Mark the mob as provoked
             UUID mobUUID = mob.getUUID();
             provokedMobs.put(mobUUID, player.getUUID());

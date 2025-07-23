@@ -2,6 +2,7 @@ package it.mitl.maleficium.event.species.vampire;
 
 import it.mitl.maleficium.config.MaleficiumCommonConfigs;
 import it.mitl.maleficium.effect.ModEffects;
+import it.mitl.maleficium.subroutine.SpeciesCheck;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -36,13 +37,15 @@ public class VampireAttributeEvent {
         if (player == null) return;
 
         // Check if the player is a vampire
-        boolean isVampire = "vampire".equals(VariableManager.getSpecies(player));
+        boolean isAnyVampire = SpeciesCheck.isAnyVampire(player);
+        boolean isOnlyVampire = SpeciesCheck.isOnlyVampire(player);
+        boolean isOriginalVampire = SpeciesCheck.isOriginalVampire(player);
         boolean isHuman = "human".equals(VariableManager.getSpecies(player));
 
         boolean isDesiccated = player.getEffect(ModEffects.VAMPIRE_DESICCATED_EFFECT.get()) != null;
 
         // Strength Modifier
-        if (isVampire && player.getHealth() > 1.0F && !isDesiccated) { // Only apply strength if the player is a vampire and has more than 1/2 a heart of health
+        if (isAnyVampire && player.getHealth() > 1.0F && !isDesiccated) { // Only apply strength if the player is a vampire and has more than 1/2 a heart of health
             if (player.getAttribute(Attributes.ATTACK_DAMAGE).getModifier(STRENGTH_MODIFIER_UUID) == null) {
                 player.getAttribute(Attributes.ATTACK_DAMAGE).addPermanentModifier(
                         new AttributeModifier(STRENGTH_MODIFIER_UUID, "Vampire strength boost", MaleficiumCommonConfigs.VAMPIRE_STRENGTH_MULTIPLIER.get(), AttributeModifier.Operation.MULTIPLY_TOTAL)
@@ -53,8 +56,15 @@ public class VampireAttributeEvent {
         }
 
         // Health Modifier
-        if (isVampire) { // Only apply health boost if the player is a vampire and has more than 1/2 a heart of health
+        if (isAnyVampire) { // Only apply health boost if the player is a vampire and has more than 1/2 a heart of health
             if (player.getAttribute(Attributes.MAX_HEALTH).getModifier(HEALTH_MODIFIER_UUID) == null) {
+                if (isOriginalVampire) {
+                    player.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(
+                            new AttributeModifier(HEALTH_MODIFIER_UUID, "Vampire health boost", MaleficiumCommonConfigs.VAMPIRE_HEALTH_INCREASE.get() + 10, AttributeModifier.Operation.ADDITION)
+                    );
+                    player.setHealth(player.getMaxHealth());
+                    return;
+                }
                 player.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(
                         new AttributeModifier(HEALTH_MODIFIER_UUID, "Vampire health boost", MaleficiumCommonConfigs.VAMPIRE_HEALTH_INCREASE.get(), AttributeModifier.Operation.ADDITION)
                 );
@@ -70,7 +80,7 @@ public class VampireAttributeEvent {
         }
 
         // Speed Modifier
-        if (isVampire && VariableManager.isBuffed(player) && player.getHealth() > 1.0F && !isDesiccated) { // Only apply speed boost if the player is a vampire, buffed, and has more than 1/2 a heart of health
+        if (isAnyVampire && VariableManager.isBuffed(player) && player.getHealth() > 1.0F && !isDesiccated) { // Only apply speed boost if the player is a vampire, buffed, and has more than 1/2 a heart of health
             if (player.getAttribute(Attributes.MOVEMENT_SPEED).getModifier(SPEED_MODIFIER_UUID) == null) {
                 player.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(
                         new AttributeModifier(SPEED_MODIFIER_UUID, "Vampire speed boost", 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL)
@@ -81,9 +91,9 @@ public class VampireAttributeEvent {
         }
 
         // Night Vision
-        if (isVampire && player.getHealth() > 1.0F && !isDesiccated) {
+        if (isAnyVampire && player.getHealth() > 1.0F && !isDesiccated) {
             applyHiddenEffectIfMissing(player, MobEffects.NIGHT_VISION, -1, 106, false, false, false);
-        } else if (!isVampire && player.getEffect(MobEffects.NIGHT_VISION) != null) {
+        } else if (!isAnyVampire && player.getEffect(MobEffects.NIGHT_VISION) != null) {
             MobEffectInstance instance = player.getEffect(MobEffects.NIGHT_VISION);
             if (instance.getAmplifier() == 106 && instance.getDuration() == -1) {
                 player.removeEffect(MobEffects.NIGHT_VISION);
@@ -91,9 +101,9 @@ public class VampireAttributeEvent {
         }
 
         // Near death negative effects
-        if (isVampire && player.getHealth() <= 1.0F && player.getFoodData().getFoodLevel() == 0 && !isDesiccated) {
+        if (isAnyVampire && player.getHealth() <= 1.0F && player.getFoodData().getFoodLevel() == 0 && !isDesiccated) {
 //            applyDesiccationEffect(player, 1200);
-        } else if (isVampire && player.getFoodData().getFoodLevel() == 0 && isDesiccated) {
+        } else if (isAnyVampire && player.getFoodData().getFoodLevel() == 0 && isDesiccated) {
             // blank
         } else {
             player.removeEffect(ModEffects.VAMPIRE_DESICCATION_EFFECT.get());
@@ -103,7 +113,7 @@ public class VampireAttributeEvent {
     @SubscribeEvent
     public static void onPlayerJump(LivingEvent.LivingJumpEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (!"vampire".equals(VariableManager.getSpecies(player))) return;
+            if (!SpeciesCheck.isAnyVampire(player)) return;
             if (!VariableManager.isBuffed(player) || player.getHealth() <= 1.0F) return;
             player.setDeltaMovement(player.getDeltaMovement().add(0, 0.2, 0)); // up, up, and away
         }
@@ -112,7 +122,7 @@ public class VampireAttributeEvent {
     @SubscribeEvent
     public static void onPlayerFall(LivingFallEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (!"vampire".equals(VariableManager.getSpecies(player))) return;
+            if (!SpeciesCheck.isAnyVampire(player)) return;
             if (!VariableManager.isBuffed(player) || player.getHealth() <= 1.0F) return;
             //event.setDistance(event.getDistance() * 0.7f); // reduce fall damage by 30% to try account for the jump boost
             event.setDistance(event.getDistance() - 1.5f); // reduce fall damage by 1 and a half blocks.

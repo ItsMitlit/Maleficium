@@ -2,6 +2,7 @@ package it.mitl.maleficium.client.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import it.mitl.maleficium.Maleficium;
+import it.mitl.maleficium.subroutine.SpeciesCheck;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -82,7 +83,7 @@ public class ExperienceBarColourChanger {
             if (player.getVehicle() != null) return;
 
             // Ignore if the player is not a vampire
-            if (!"vampire".equals(VariableManager.getSpecies(player))) return;
+            if (!SpeciesCheck.isAnyVampire(player)) return;
 
             event.setCanceled(true);
 
@@ -142,7 +143,7 @@ public class ExperienceBarColourChanger {
 
     private static XPColor getXPColorForSpecies(String species) {
         return switch (species) {
-            case "vampire" -> new XPColor(165/255f, 7/255f, 7/255f, 1.0f, 0xA50707);
+            case "vampire", "original_vampire" -> new XPColor(165/255f, 7/255f, 7/255f, 1.0f, 0xA50707);
             case "werewolf" -> new XPColor(67/255f, 44/255f, 8/255f, 1.0f, 0x432C08);
             case "witch" -> new XPColor(152/255f, 95/255f, 186/255f, 1.0f, 0x985FBA);
             default -> new XPColor(0f, 0f, 0f, 1.0f,0xFFFFFF);

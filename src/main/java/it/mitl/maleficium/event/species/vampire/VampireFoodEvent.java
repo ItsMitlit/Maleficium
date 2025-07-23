@@ -1,5 +1,6 @@
 package it.mitl.maleficium.event.species.vampire;
 
+import it.mitl.maleficium.subroutine.SpeciesCheck;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +21,7 @@ public class VampireFoodEvent {
         Player player = event.getEntity();
         ItemStack itemStack = event.getItemStack();
 
-        if (!"vampire".equals(VariableManager.getSpecies(player))) return;
+        if (!SpeciesCheck.isAnyVampire(player)) return;
         if (!itemStack.isEdible()) return;
 
         event.setCanceled(true);
@@ -31,7 +32,7 @@ public class VampireFoodEvent {
     public static void onPlayerHungerDecreaseTick(TickEvent.PlayerTickEvent event) {
 
         Player player = event.player;
-        if (!"vampire".equals(VariableManager.getSpecies(player))) return;
+        if (!SpeciesCheck.isAnyVampire(player)) return;
 
         if (player.getFoodData().getFoodLevel() < 20 && VariableManager.getExtraHunger(player) > 0) {
             int extraHunger = VariableManager.getExtraHunger(player);

@@ -2,6 +2,7 @@ package it.mitl.maleficium.subroutine.spell;
 
 import it.mitl.maleficium.block.ModBlocks;
 import it.mitl.maleficium.subroutine.PlayerUtils;
+import it.mitl.maleficium.subroutine.SpeciesCheck;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -23,7 +24,7 @@ public class VampireCreation {
     public static void onDogDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof Wolf dog) {
             if (event.getSource().getEntity() instanceof ServerPlayer player) {
-                if (!dog.isTame() && dog.getOwner() != player && !"witch".equals(VariableManager.getSpecies(player))) return;
+                if (!dog.isTame() && dog.getOwner() != player && SpeciesCheck.isWitch(player)) return;
                 Level level = dog.level();
                 if (level.isDay() || !(level.getMoonPhase() == 0)) return; // full moon
                 // 10x10x10 area around where the dog dies
