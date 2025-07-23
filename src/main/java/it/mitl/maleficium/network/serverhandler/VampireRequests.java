@@ -8,7 +8,7 @@ import it.mitl.maleficium.subroutine.PlayerUtils;
 import it.mitl.maleficium.subroutine.SoundPlayer;
 import it.mitl.maleficium.subroutine.VariableManager;
 import net.minecraft.advancements.Advancement;
-import net.minecraft.core.Holder;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -19,7 +19,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -33,6 +32,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -348,6 +348,16 @@ public class VampireRequests {
             float currentBlood = blood.getBlood();
             if (entity instanceof LivingEntity livingEntity) {
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 255, true, false));
+            }
+
+            if (entity.level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(
+                        new BlockParticleOption(ParticleTypes.BLOCK, Blocks.REDSTONE_BLOCK.defaultBlockState()),
+                        entity.getX(), entity.getY() + entity.getBbHeight() / 2, entity.getZ(),
+                        20,
+                        0.3, 0.5, 0.3,
+                        0.1
+                );
             }
 
             if (entity instanceof Villager villager) {
